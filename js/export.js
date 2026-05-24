@@ -45,12 +45,17 @@ const ExportTool = (() => {
     "lib/leaflet/images/marker-shadow.png"
   ];
 
+  let _debounceTimer = null;
+  function _scheduleCheck() {
+    clearTimeout(_debounceTimer);
+    _debounceTimer = setTimeout(() => zeigeBericht(validiere()), 400);
+  }
+
   function init() {
     berichtEl = document.getElementById("export-bericht");
     btnEl = document.getElementById("btn-export-zip");
     btnEl.addEventListener("click", starteExport);
-    document.getElementById("btn-export-pruefen")
-      .addEventListener("click", () => zeigeBericht(validiere()));
+    Store.subscribe(_scheduleCheck);
   }
 
   function onShow(tab) {
@@ -428,8 +433,8 @@ const ExportTool = (() => {
       "",
       "3. EXPORT",
       "---------",
-      "Wenn die Planung abgeschlossen ist, wird im Tab \"Export\" zunächst \"Prüfen\"",
-      "geklickt. Das System zeigt blockierende Fehler und Hinweise an. Sind alle",
+      "Wenn die Planung abgeschlossen ist, den Tab \"Export\" öffnen. Das System prüft",
+      "automatisch und zeigt blockierende Fehler und Hinweise an. Sind alle",
       "Pflichtfelder korrekt ausgefüllt, kann über \"ZIP erzeugen\" das Exportpaket",
       "heruntergeladen werden.",
       "",
