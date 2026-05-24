@@ -102,6 +102,9 @@ const ExportTool = (() => {
     if (!s.projekt.schatzbild)
       warn.push("Kein Schatzbild gesetzt – schatz.html zeigt nach Erfolg nur den Text.");
 
+    if (s.projekt.gpsAktiv === false)
+      warn.push("GPS-Prüfung ist deaktiviert – Stationen öffnen ohne Standortprüfung.");
+
     return { fehler, warn };
   }
 
