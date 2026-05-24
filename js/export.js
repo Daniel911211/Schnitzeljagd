@@ -141,7 +141,7 @@ const ExportTool = (() => {
       const erwartungen = {
         ".html": ["<!DOCTYPE", "<html"],
         ".css": ["/*", "@import"],
-        ".js": ["/*", "!", "var ", "const ", "(function"]
+        ".js": ["/*", "//", "!", "var ", "const ", "(function"]
       };
 
       for (const pfad of [...ASSETS, ...BIN_ASSETS]) {
