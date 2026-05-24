@@ -1,0 +1,25 @@
+SCHNITZELJAGD – EXPORT
+================================
+
+Dieser Ordner enthält BEIDES:
+  A) Teilnehmer-Site (station.html, schatz.html, qr/, daten/)
+  B) Planungstool (index.html) zum Online-Bearbeiten
+
+TEILNEHMER
+----------
+1. Diesen Ordnerinhalt ins GitHub-Pages-Repository legen.
+2. Bilder gemäß bilder/README.txt in /bilder/ ablegen.
+3. Veröffentlichen. Aufruf einer Station z. B.:
+   https://BENUTZER.github.io/schnitzeljagd/station.html?station=01&gruppe=G1
+   Schatzseite: https://BENUTZER.github.io/schnitzeljagd/schatz.html
+   QR-Codes liegen unter /qr/.
+
+PLANUNG (online)
+----------------
+Planungstool öffnen: https://BENUTZER.github.io/schnitzeljagd/
+Projekt laden/speichern über die Schaltflächen oben (JSON vom Gerät).
+
+WICHTIG ZUR SICHERHEIT
+----------------------
+- daten/data.json (Teilnehmer) enthält KEINE Klartextlösungen (nur Hashes).
+- Bearbeitbares Projekt-JSON (mit Klartext) NICHT öffentlich ins Repo legen.

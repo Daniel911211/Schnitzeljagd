@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schnitzeljagd · Planungstool</title>
+  <link rel="stylesheet" href="lib/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="logo"><span class="mark">🚒</span> Schnitzeljagd</div>
+    <span class="titel-anzeige" id="titel-anzeige">· Neues Projekt</span>
+    <div class="actions">
+      <button class="btn btn-ghost btn-sm" id="btn-neu">Neu</button>
+      <button class="btn btn-ghost btn-sm" id="btn-import-json">JSON laden</button>
+      <button class="btn btn-primary btn-sm" id="btn-export-json">JSON speichern</button>
+      <input type="file" id="file-import" accept=".json" hidden>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button data-tab="allgemein" class="active">Allgemein</button>
+    <button data-tab="stationen">Stationen</button>
+    <button data-tab="karte">Karte</button>
+    <button data-tab="gruppen">Gruppen</button>
+    <button data-tab="wortdb">Wortdatenbank</button>
+    <button data-tab="export">Export</button>
+  </nav>
+
+  <main>
+
+    <!-- ALLGEMEIN -->
+    <section class="tab-panel active" id="tab-allgemein">
+      <div class="seite">
+        <div class="card">
+          <h3>Allgemeine Einstellungen</h3>
+          <div class="feld">
+            <label>Titel</label>
+            <input type="text" id="p-titel" placeholder="z. B. Jugendfeuerwehr-Rallye 2026">
+          </div>
+          <div class="feld">
+            <label>Beschreibung</label>
+            <textarea id="p-beschreibung" placeholder="Kurzbeschreibung der Schnitzeljagd"></textarea>
+          </div>
+          <div class="row">
+            <div class="feld">
+              <label>Standardradius (m)</label>
+              <input type="number" id="p-standardRadius" min="1" value="30">
+              <div class="hinweis">Vorbelegung neuer Stationen.</div>
+            </div>
+            <div class="feld">
+              <label>GitHub-Basislink</label>
+              <input type="url" id="p-githubBasislink"
+                placeholder="https://BENUTZER.github.io/PROJEKT/">
+              <div class="hinweis">Basis für Stationslinks, QR-Codes und Bilder.</div>
+            </div>
+          </div>
+          <div class="feld">
+            <label>Schatzbild (Pfad oder externer Link)</label>
+            <input type="text" id="p-schatzbild"
+              placeholder="bilder/schatz.jpg  oder  https://…">
+            <div class="hinweis">Wird auf schatz.html angezeigt, sobald alle Lösungswörter stimmen.</div>
+          </div>
+          <div class="feld">
+            <label>Schatztext / Hinweis (optional)</label>
+            <textarea id="p-schatztext" placeholder="z. B. Der Schatz liegt hinter dem Gerätehaus."></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATIONEN -->
+    <section class="tab-panel" id="tab-stationen">
+      <div class="split">
+        <div class="links">
+          <div class="liste-kopf">
+            <h2>Stationen</h2>
+            <button class="btn btn-primary btn-sm" id="btn-station-add">+ Station</button>
+          </div>
+          <div id="station-liste"></div>
+        </div>
+        <div class="rechts" id="station-editor"></div>
+      </div>
+    </section>
+
+    <!-- KARTE -->
+    <section class="tab-panel" id="tab-karte">
+      <div class="split">
+        <div class="links">
+          <div class="liste-kopf">
+            <h2>Stationen</h2>
+            <button class="btn btn-light btn-sm" id="btn-karte-fit">Ansicht</button>
+          </div>
+          <div id="karte-liste"></div>
+        </div>
+        <div class="rechts karte-rechts">
+          <div id="karte-map"></div>
+          <div class="karte-infobar">
+            <span id="karte-info">Karte wird geladen…</span>
+            <span class="hint">Station links wählen → in Karte klicken zum Setzen · Marker ziehen zum Verschieben</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRUPPEN -->
+    <section class="tab-panel" id="tab-gruppen">
+      <div class="split">
+        <div class="links">
+          <div class="liste-kopf">
+            <h2>Gruppen</h2>
+            <button class="btn btn-primary btn-sm" id="btn-gruppe-add">+ Gruppe</button>
+          </div>
+          <div id="gruppen-liste"></div>
+        </div>
+        <div class="rechts" id="gruppen-editor"></div>
+      </div>
+    </section>
+
+    <!-- WORTDATENBANK -->
+    <section class="tab-panel" id="tab-wortdb">
+      <div class="split">
+        <div class="links">
+          <div class="liste-kopf">
+            <h2>Kategorien</h2>
+            <div style="display:flex;gap:.4rem">
+              <button class="btn btn-light btn-sm" id="btn-wdb-hilfe">?</button>
+              <button class="btn btn-primary btn-sm" id="btn-wdb-add-kat">+ Kategorie</button>
+            </div>
+          </div>
+          <div id="wdb-katliste"></div>
+        </div>
+        <div class="rechts" id="wdb-detail"></div>
+      </div>
+    </section>
+
+    <!-- EXPORT -->
+    <section class="tab-panel" id="tab-export">
+      <div class="seite">
+        <div class="card">
+          <h3>Export für GitHub Pages</h3>
+          <p style="font-size:.9rem;color:#374151;margin-bottom:1rem">
+            Erzeugt ein ZIP mit Teilnehmerseite (station.html), gehashter
+            <code>data.json</code> (keine Klartextlösungen), QR-Codes je Station × Gruppe
+            sowie Ordnerstruktur für Bilder.</p>
+          <div class="editor-foot" style="margin-top:0">
+            <button class="btn btn-light" id="btn-export-pruefen">Prüfen</button>
+            <button class="btn btn-primary" id="btn-export-zip" disabled>ZIP erzeugen</button>
+          </div>
+          <div id="export-bericht" class="export-bericht"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="lib/leaflet/leaflet.js"></script>
+  <script src="lib/jszip.min.js"></script>
+  <script src="lib/qrcode.js"></script>
+  <script src="js/crypto.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/solution.js"></script>
+  <script src="js/stations.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/groups.js"></script>
+  <script src="js/worddb.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
