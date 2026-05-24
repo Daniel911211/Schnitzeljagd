@@ -90,7 +90,7 @@ const Stations = (() => {
           </select>
         </div>
         <div class="feld">
-          <label>Stationseinleitung</label>
+          <label>Stationseinleitung (optional)</label>
           <textarea id="f-aufgabe" placeholder="Einleitungstext zur Station&#10;Ortsbeschreibung („Ihr steht vor dem roten Gebäude…")&#10;Allgemeine Hinweise">${esc(s.aufgabe)}</textarea>
         </div>
         <div class="row">
@@ -117,23 +117,23 @@ const Stations = (() => {
       </div>
 
       <div class="card">
-        <h3>Bilder & Links</h3>
+        <h3>Bilder (optional)</h3>
         <div class="feld" id="bilder-feld">
-          <label>Bilder (Pfade)</label>
-          ${renderListInputs(s.bilder, "bild", "bilder/station-XX/bild-1.jpg")}
+          <label>Bild aus diesem Projekt</label>
+          ${renderListInputs(s.bilder, "bild", "bilder/station-01/bild-1.jpg")}
         </div>
         <div class="feld">
-          <label>Externer Bildlink (optional)</label>
+          <label>Externes Bild (URL)</label>
           <input type="url" id="f-extbild" value="${esc(s.externerBildlink)}">
         </div>
+      </div>
+
+      <div class="card">
+        <h3>Link</h3>
         <div class="feld">
-          <label>GitHub-Link (automatisch)</label>
+          <label>GitHub-Link automatisch</label>
           <input type="text" id="f-ghlink" value="${esc(s.githubLink)}" readonly>
           <div class="hinweis">Gruppe wird beim Export/QR ergänzt (&gruppe=G1).</div>
-        </div>
-        <div class="feld">
-          <label>Externer Link (optional)</label>
-          <input type="url" id="f-extlink" value="${esc(s.externerLink)}">
         </div>
       </div>
 
@@ -331,7 +331,6 @@ const Stations = (() => {
       radius: parseInt(val("f-radius"), 10) || s.radius,
       hinweisNaechste: val("f-hinweis"),
       externerBildlink: val("f-extbild"),
-      externerLink: val("f-extlink"),
       bilder: sammleListGroup("bild")
     };
 

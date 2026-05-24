@@ -396,3 +396,12 @@ main { flex: 1; overflow: hidden; position: relative; }
   color: var(--grau); text-align: center; padding: 2rem;
 }
 .platzhalter .gross { font-family: var(--display); font-size: 1.3rem; text-transform: uppercase; letter-spacing: .04em; margin-bottom: .4rem; }
+
+/* ---------- Schatz-Karte ---------- */
+.card-schatz {
+  background: #fffbf0;
+  border-left: 4px solid #d4a017;
+}
+.card-schatz h3 {
+  color: #8a6000;
+}

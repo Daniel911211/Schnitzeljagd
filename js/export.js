@@ -252,8 +252,7 @@ const ExportTool = (() => {
       radius: st.radius || 0,
       bilder: st.bilder || [],
       externerBildlink: st.externerBildlink || "",
-      hinweisNaechste: st.hinweisNaechste || "",
-      externerLink: st.externerLink || ""
+      hinweisNaechste: st.hinweisNaechste || ""
     };
     if (sec.optionen) v.optionen = sec.optionen;
     if (sec.zusatz) v.zusatz = sec.zusatz;

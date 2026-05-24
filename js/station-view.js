@@ -162,9 +162,7 @@
         <div class="buchstabe">${esc(buchstabe || "—")}</div>
       </div>
       ${st.hinweisNaechste ? `<div class="hinweis-box">
-        <strong>Weiter zur nächsten Station:</strong><br>${nl2br(esc(st.hinweisNaechste))}</div>` : ""}
-      ${st.externerLink ? `<a class="gross-btn link-btn" href="${esc(st.externerLink)}"
-        target="_blank" rel="noopener">Mehr Infos</a>` : ""}`;
+        <strong>Weiter zur nächsten Station:</strong><br>${nl2br(esc(st.hinweisNaechste))}</div>` : ""}`;
     erg.scrollIntoView({ behavior: "smooth" });
   }
 
