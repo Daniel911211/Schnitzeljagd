@@ -255,12 +255,12 @@ const PrintTool = (function () {
       const buchstaben = Object.entries(grp.buchstaben || {})
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([sid, b]) => `${sid}=${b}`).join(", ");
-      return `<tr>
-        <td class="gruppe-col">${esc(gid)}</td>
-        <td class="kinder-col"><div class="kinder-linie"></div></td>
-        <td class="loesungswort-col">${esc(grp.loesungswort || "—")}</td>
-        <td class="buchstaben-col" style="font-size:8.5pt">${esc(buchstaben || "—")}</td>
-      </tr>`;
+      return `<div class="gruppen-grid-row">
+        <div>${esc(gid)}</div>
+        <div><div class="kinder-linie"></div></div>
+        <div>${esc(grp.loesungswort || "—")}</div>
+        <div style="font-size:8.5pt">${esc(buchstaben || "—")}</div>
+      </div>`;
     }).join("");
 
     const html = `<!DOCTYPE html><html lang="de"><head>
@@ -279,11 +279,24 @@ const PrintTool = (function () {
         .col-ort   { width: 100pt; }
         .col-check { width: 24pt; text-align: center; }
         .col-bem   { }
-        .gruppen-table { width: 100%; table-layout: fixed; }
-        .gruppe-col     { width: 45pt; }
-        .kinder-col     { width: 58%; }
-        .loesungswort-col { width: 90pt; }
-        .buchstaben-col { width: 150pt; }
+        .gruppen-grid { width: 100%; margin-top: 6pt; }
+        .gruppen-grid-header,
+        .gruppen-grid-row {
+          display: grid;
+          grid-template-columns: 45pt 1fr 85pt 150pt;
+          column-gap: 12pt;
+          align-items: end;
+          padding: 4pt 0;
+          border-bottom: 1px solid #e5e7eb;
+        }
+        .gruppen-grid-header {
+          background: #1c2024; color: #fff;
+          font-family: 'Oswald', sans-serif; font-weight: 500;
+          font-size: 10pt; padding: 5pt 6pt;
+          border-bottom: none;
+        }
+        .gruppen-grid-row:nth-child(even) { background: #f9fafb; }
+        .gruppen-grid-row { padding: 5pt 6pt; }
         .kinder-linie {
           border-bottom: 1.3pt solid #1c2024;
           height: 16pt; width: 100%;
@@ -314,15 +327,15 @@ const PrintTool = (function () {
       </table>
 
       <h2>Gruppen / Lösungswörter</h2>
-      <table class="gruppen-table">
-        <thead><tr>
-          <th class="gruppe-col">Gruppe</th>
-          <th class="kinder-col">Namen der Kinder</th>
-          <th class="loesungswort-col">Lösungswort</th>
-          <th class="buchstaben-col">Buchstaben je Station</th>
-        </tr></thead>
-        <tbody>${grRows}</tbody>
-      </table>
+      <div class="gruppen-grid">
+        <div class="gruppen-grid-header">
+          <div>Gruppe</div>
+          <div>Namen der Kinder</div>
+          <div>Lösungswort</div>
+          <div>Buchstaben je Station</div>
+        </div>
+        ${grRows}
+      </div>
     </body></html>`;
 
     oeffneFenster(html);
