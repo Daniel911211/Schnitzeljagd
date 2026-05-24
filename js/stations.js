@@ -109,6 +109,12 @@ const Stations = (() => {
           <label>Hinweis zur nächsten Station</label>
           <textarea id="f-hinweis">${esc(s.hinweisNaechste)}</textarea>
         </div>
+        <div class="feld">
+          <label>Nächster Ort / Kurzinfo für Spielleitung (optional)</label>
+          <input type="text" id="f-hinweis-kurz" value="${esc(s.hinweisKurz)}"
+            placeholder="z. B. Post, Rathaus, Sportplatz, Feuerwehrhaus">
+          <div class="hinweis">Nur für Spielleitungsübersicht – wird Teilnehmern nicht angezeigt.</div>
+        </div>
       </div>
 
       <div class="card" id="typ-felder">
@@ -330,6 +336,7 @@ const Stations = (() => {
       aufgabe: val("f-aufgabe"),
       radius: parseInt(val("f-radius"), 10) || s.radius,
       hinweisNaechste: val("f-hinweis"),
+      hinweisKurz: val("f-hinweis-kurz"),
       externerBildlink: val("f-extbild"),
       bilder: sammleListGroup("bild")
     };

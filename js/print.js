@@ -20,6 +20,21 @@ const PrintTool = (function () {
     return b;
   }
 
+  function druckDatum() {
+    const d = new Date();
+    const dd = String(d.getDate()).padStart(2, "0");
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const jj = d.getFullYear();
+    const hh = String(d.getHours()).padStart(2, "0");
+    const mi = String(d.getMinutes()).padStart(2, "0");
+    return `Gedruckt am: ${dd}.${mm}.${jj}, ${hh}:${mi} Uhr`;
+  }
+
+  function kuerze(text, max) {
+    if (!text) return "—";
+    return text.length > max ? text.slice(0, max).trimEnd() + "…" : text;
+  }
+
   function validiere(brauchtGruppen = true) {
     const s = Store.state;
     const fehler = [];
@@ -36,7 +51,6 @@ const PrintTool = (function () {
     win.document.write(html);
     win.document.close();
     win.focus();
-    // Kurz warten, damit Bilder/Fonts laden können, dann Druckdialog
     win.onload = () => setTimeout(() => win.print(), 400);
   }
 
@@ -48,30 +62,42 @@ const PrintTool = (function () {
         body { font-family: 'Inter', system-ui, sans-serif; font-size: 11pt; color: #1c2024; background: #fff; }
         h1 { font-family: 'Oswald', sans-serif; font-size: 18pt; margin-bottom: 4pt; }
         h2 { font-family: 'Oswald', sans-serif; font-size: 14pt; margin: 12pt 0 6pt; color: #c8102e; }
-        h3 { font-family: 'Oswald', sans-serif; font-size: 12pt; margin: 8pt 0 4pt; }
         p  { margin: 3pt 0; }
         table { width: 100%; border-collapse: collapse; margin: 6pt 0; font-size: 10pt; }
         th { background: #1c2024; color: #fff; font-family: 'Oswald', sans-serif;
              font-weight: 500; padding: 5pt 7pt; text-align: left; }
         td { padding: 5pt 7pt; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
         tr:nth-child(even) td { background: #f9fafb; }
-        .kopf { border-bottom: 3px solid #c8102e; padding-bottom: 8pt; margin-bottom: 12pt; }
+        .kopf { border-bottom: 3px solid #c8102e; padding-bottom: 8pt; margin-bottom: 12pt;
+                display: flex; justify-content: space-between; align-items: flex-end; }
+        .kopf-links {}
+        .kopf-datum { font-size: 8.5pt; color: #6b7280; text-align: right; white-space: nowrap; }
         .badge { display: inline-block; background: #c8102e; color: #fff;
                  font-family: 'Oswald', sans-serif; font-weight: 700;
                  padding: 3pt 10pt; border-radius: 6pt; margin-bottom: 4pt; }
         .meta { font-size: 10pt; color: #6b7280; }
-        .leer { color: #d1d5db; }
         @media print {
           .kein-druck { display: none !important; }
           a { text-decoration: none; color: inherit; }
         }
         .btn-druck {
-          display: inline-block; margin: 8pt 6pt 0 0;
+          display: inline-block; margin: 8pt 6pt 8pt 0;
           background: #c8102e; color: #fff; border: none; border-radius: 6pt;
           font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 11pt;
           padding: 6pt 14pt; cursor: pointer; text-transform: uppercase;
         }
       </style>`;
+  }
+
+  function kopfHTML(badge, titel, meta) {
+    return `<div class="kopf">
+      <div class="kopf-links">
+        <div class="badge">${badge}</div>
+        <h1>${titel}</h1>
+        ${meta ? `<div class="meta">${meta}</div>` : ""}
+      </div>
+      <div class="kopf-datum">${druckDatum()}</div>
+    </div>`;
   }
 
   /* =================== QR-Codes erzeugen =================== */
@@ -107,12 +133,11 @@ const PrintTool = (function () {
     const gruppen = Object.entries(s.gruppen);
     const stationen = [...s.stationen].sort((a, b) => a.id.localeCompare(b.id));
 
-    // QR-Codes vorberechnen (canvas läuft im Hauptfenster)
     const qrMap = {};
     for (const [gid] of gruppen) {
       for (const st of stationen) {
         const url = basis + "station.html?station=" + st.id + "&gruppe=" + gid;
-        qrMap[gid + "_" + st.id] = qrDataUrl(url, 7);
+        qrMap[gid + "_" + st.id] = qrDataUrl(url, 10);
       }
     }
 
@@ -138,22 +163,18 @@ const PrintTool = (function () {
       <title>QR-Codes – ${titel}</title>
       ${druckCSS()}
       <style>
-        .qr-grid { display: flex; flex-wrap: wrap; gap: 12pt; margin: 8pt 0 16pt; }
+        .qr-grid { display: flex; flex-wrap: wrap; gap: 14pt; margin: 8pt 0 16pt; }
         .qr-karte { border: 1.5pt solid #e5e7eb; border-radius: 8pt;
-                    padding: 8pt; text-align: center; width: 140pt; }
-        .qr-img { width: 120pt; height: 120pt; display: block; margin: 0 auto 6pt; }
+                    padding: 10pt; text-align: center; width: 175pt; }
+        .qr-img { width: 155pt; height: 155pt; display: block; margin: 0 auto 8pt; }
         .qr-gruppe { font-family: 'Oswald', sans-serif; font-weight: 700;
-                     font-size: 11pt; color: #c8102e; }
-        .qr-station { font-size: 9pt; color: #374151; margin-top: 2pt; }
+                     font-size: 12pt; color: #c8102e; }
+        .qr-station { font-size: 10pt; color: #374151; margin-top: 3pt; }
         .gruppen-block { page-break-inside: avoid; }
         @media print { .gruppen-block { page-break-after: always; } }
       </style>
     </head><body>
-      <div class="kopf">
-        <div class="badge">QR-Codes</div>
-        <h1>${titel}</h1>
-        <div class="meta">${stationen.length} Stationen · ${gruppen.length} Gruppen</div>
-      </div>
+      ${kopfHTML("QR-Codes", titel, stationen.length + " Stationen · " + gruppen.length + " Gruppen")}
       <button class="btn-druck kein-druck" onclick="window.print()">🖨 Drucken</button>
       ${karten}
     </body></html>`;
@@ -166,11 +187,11 @@ const PrintTool = (function () {
   function loesungFuerStation(st) {
     const tf = st.typFelder || {};
     switch (st.typ) {
-      case "standard":    return tf.loesung || "—";
-      case "raetsel":     return tf.loesung || "—";
+      case "standard":     return tf.loesung || "—";
+      case "raetsel":      return tf.loesung || "—";
       case "orientierung": return tf.loesung || "(Orientierung)";
-      case "codewort":    return tf.codewort || "—";
-      case "zielstation": return "(Zielstation – kein Lösungstext)";
+      case "codewort":     return tf.codewort || "—";
+      case "zielstation":  return "(Zielstation)";
       case "feuerwehrwissen":
         if (tf.antwortTyp === "multipleChoice") return tf.richtigeAntwort || "—";
         return tf.antwortText || "—";
@@ -187,7 +208,7 @@ const PrintTool = (function () {
           if (bf.antwortText) return bf.antwortText;
           if (bf.richtigeAntwort) return bf.richtigeAntwort;
         }
-        return "(Kombi – bitte prüfen)";
+        return "(Kombi – prüfen)";
       }
       default: return "—";
     }
@@ -202,30 +223,33 @@ const PrintTool = (function () {
     const stationen = [...s.stationen].sort((a, b) => a.id.localeCompare(b.id));
     const gruppen = Object.entries(s.gruppen);
 
-    // Stationsübersicht
     let stRows = stationen.map(st => {
       const typ = (STATION_TYPES[st.typ] || {}).label || st.typ;
       const loesung = loesungFuerStation(st);
+      const kurzinfo = st.hinweisKurz
+        ? esc(st.hinweisKurz)
+        : esc(kuerze(st.hinweisNaechste, 70));
       return `<tr>
-        <td>${esc(st.id)}</td>
-        <td>${esc(st.name || "–")}</td>
-        <td>${esc(typ)}</td>
-        <td>${esc(loesung)}</td>
-        <td>${esc(st.hinweisNaechste || "–")}</td>
-        <td>☐</td><td>☐</td><td></td>
+        <td class="col-nr">${esc(st.id)}</td>
+        <td class="col-name">${esc(st.name || "–")}</td>
+        <td class="col-typ">${esc(typ)}</td>
+        <td class="col-loesung">${esc(loesung)}</td>
+        <td class="col-ort">${kurzinfo}</td>
+        <td class="col-check">☐</td>
+        <td class="col-check">☐</td>
+        <td class="col-bem"></td>
       </tr>`;
     }).join("");
 
-    // Gruppenübersicht
     let grRows = gruppen.map(([gid, grp]) => {
       const buchstaben = Object.entries(grp.buchstaben || {})
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([sid, b]) => `${sid}=${b}`).join(", ");
       return `<tr>
-        <td>${esc(gid)}</td>
-        <td style="min-width:120pt">________________________</td>
-        <td>${esc(grp.loesungswort || "—")}</td>
-        <td style="font-size:9pt">${esc(buchstaben || "—")}</td>
+        <td style="width:40pt">${esc(gid)}</td>
+        <td style="width:180pt">____________________________________________</td>
+        <td style="width:80pt">${esc(grp.loesungswort || "—")}</td>
+        <td style="font-size:8.5pt">${esc(buchstaben || "—")}</td>
       </tr>`;
     }).join("");
 
@@ -234,27 +258,38 @@ const PrintTool = (function () {
       <title>Spielleitungsübersicht – ${titel}</title>
       ${druckCSS()}
       <style>
-        .felder { display: flex; gap: 20pt; margin: 8pt 0 16pt; flex-wrap: wrap; }
-        .feld { flex: 1; min-width: 120pt; border-bottom: 1.5pt solid #1c2024; font-size: 10pt;
-                color: #6b7280; padding-bottom: 2pt; }
+        @page { size: A4 landscape; margin: 15mm; }
+        .felder { display: flex; gap: 20pt; margin: 8pt 0 14pt; flex-wrap: wrap; }
+        .feld-zeile { flex: 1; min-width: 100pt; border-bottom: 1.5pt solid #1c2024;
+                      font-size: 10pt; color: #6b7280; padding-bottom: 2pt; }
+        .col-nr    { width: 32pt; }
+        .col-name  { width: 80pt; }
+        .col-typ   { width: 70pt; }
+        .col-loesung { width: 90pt; }
+        .col-ort   { width: 100pt; }
+        .col-check { width: 24pt; text-align: center; }
+        .col-bem   { }
       </style>
     </head><body>
-      <div class="kopf">
-        <div class="badge">INTERN – Spielleitungsübersicht</div>
-        <h1>${titel}</h1>
-      </div>
+      ${kopfHTML("INTERN – Spielleitungsübersicht", titel, "")}
       <div class="felder">
-        <div class="feld">Datum: ____________</div>
-        <div class="feld">Startzeit: ____________</div>
-        <div class="feld">Spielleitung: ________________________</div>
+        <div class="feld-zeile">Datum: ____________</div>
+        <div class="feld-zeile">Startzeit: ____________</div>
+        <div class="feld-zeile">Spielleitung: ____________________________</div>
       </div>
       <button class="btn-druck kein-druck" onclick="window.print()">🖨 Drucken</button>
 
       <h2>Stationsübersicht</h2>
       <table>
         <thead><tr>
-          <th>Station</th><th>Name</th><th>Typ</th><th>Lösung / Antwort</th>
-          <th>Hinweis nächste</th><th>QR ✓</th><th>GPS ✓</th><th>Bemerkung</th>
+          <th class="col-nr">Station</th>
+          <th class="col-name">Name</th>
+          <th class="col-typ">Typ</th>
+          <th class="col-loesung">Lösung / Antwort</th>
+          <th class="col-ort">Nächster Ort / Kurzinfo</th>
+          <th class="col-check">QR</th>
+          <th class="col-check">GPS</th>
+          <th class="col-bem">Bemerkung</th>
         </tr></thead>
         <tbody>${stRows}</tbody>
       </table>
@@ -281,40 +316,32 @@ const PrintTool = (function () {
     const titel = esc(s.projekt.titel || "Schnitzeljagd");
     const stationen = [...s.stationen].sort((a, b) => a.id.localeCompare(b.id));
     const gruppen = Object.entries(s.gruppen);
-    const anzahl = stationen.length;
-
-    const buchstabenZeile = Array.from({ length: anzahl }, () => "_").join("   ");
 
     let zettel = "";
     for (const [gid] of gruppen) {
       const rows = stationen.map(st => `<tr>
-        <td>Station ${esc(st.id)} – ${esc(st.name || "–")}</td>
-        <td style="text-align:center;letter-spacing:4pt;font-size:14pt">______</td>
-        <td>______________________________</td>
+        <td class="col-station">Station ${esc(st.id)} – ${esc(st.name || "–")}</td>
+        <td class="col-buch">______</td>
+        <td class="col-notiz"></td>
       </tr>`).join("");
 
       zettel += `
         <div class="zettel">
-          <div class="kopf">
-            <div class="badge">${titel}</div>
-            <h1>Laufzettel – Gruppe ${esc(gid)}</h1>
-            <p style="font-size:9.5pt;color:#6b7280;margin-top:4pt">
-              Tragt nach jeder Station euren Buchstaben ein. Am Ende setzt ihr daraus euer Lösungswort zusammen.
-            </p>
-          </div>
+          ${kopfHTML(titel, "Laufzettel – Gruppe " + esc(gid), "")}
+          <p style="font-size:9.5pt;color:#6b7280;margin-bottom:10pt">
+            Tragt nach jeder Station euren Buchstaben ein. Am Ende setzt ihr daraus euer Lösungswort zusammen.
+          </p>
           <table>
             <thead><tr>
-              <th>Station</th><th>Buchstabe</th><th>Notiz / Hinweis</th>
+              <th class="col-station">Station</th>
+              <th class="col-buch" style="text-align:center">Buchstabe</th>
+              <th class="col-notiz">Notiz / Hinweis</th>
             </tr></thead>
             <tbody>${rows}</tbody>
           </table>
-          <div style="margin-top:14pt">
-            <p style="font-weight:700;margin-bottom:4pt">Gesammelte Buchstaben:</p>
-            <p style="font-size:18pt;letter-spacing:10pt;font-family:'Oswald',sans-serif">${buchstabenZeile}</p>
-          </div>
-          <div style="margin-top:12pt;border-bottom:2pt solid #1c2024;padding-bottom:2pt">
-            <p style="font-weight:700;margin-bottom:2pt">Unser Lösungswort:</p>
-            <p style="font-size:10pt;color:#6b7280">____________________________________</p>
+          <div class="loesungswort-block">
+            <div class="loesungswort-label">Lösungswort:</div>
+            <div class="loesungswort-linie"></div>
           </div>
         </div>`;
     }
@@ -326,8 +353,16 @@ const PrintTool = (function () {
       <style>
         .zettel { page-break-after: always; padding-bottom: 10pt; }
         .zettel:last-child { page-break-after: auto; }
-        td:nth-child(2) { width: 60pt; }
-        td:nth-child(3) { width: 180pt; }
+        .col-station { width: auto; }
+        .col-buch { width: 55pt; text-align: center; font-size: 13pt; letter-spacing: 3pt; }
+        .col-notiz { width: 45%; }
+        td.col-buch { text-align: center; }
+        .loesungswort-block { margin-top: 20pt; }
+        .loesungswort-label { font-weight: 700; font-size: 11pt; margin-bottom: 8pt; }
+        .loesungswort-linie {
+          border-bottom: 1.5pt solid #1c2024;
+          width: 100%; height: 20pt;
+        }
       </style>
     </head><body>
       <button class="btn-druck kein-druck" onclick="window.print()">🖨 Drucken</button>

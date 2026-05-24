@@ -149,6 +149,7 @@ function neueStation(state) {
     position: null,            // { lat, lng } – wird über Karte gesetzt
     radius: state.projekt.standardRadius || 30,
     hinweisNaechste: "",
+    hinweisKurz: "",
     githubLink: `station.html?station=${id}`,
     typFelder: {}
   };
@@ -274,6 +275,7 @@ function migriere(data) {
     position: null,
     radius: base.projekt.standardRadius || 30,
     hinweisNaechste: "",
+    hinweisKurz: "",
     githubLink: `station.html?station=${s.id}`,
     typFelder: {}
   }, s));
