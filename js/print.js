@@ -296,7 +296,7 @@ const PrintTool = (function () {
           border-bottom: none;
         }
         .gruppen-grid-row:nth-child(even) { background: #f9fafb; }
-        .gruppen-grid-row { padding: 5pt 6pt; }
+        .gruppen-grid-row { padding: 20pt 6pt 8pt; }
         .kinder-linie {
           border-bottom: 1.3pt solid #1c2024;
           height: 16pt; width: 100%;
