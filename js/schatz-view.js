@@ -70,16 +70,38 @@
     document.getElementById("btn-schatz").style.display = "none";
     document.getElementById("fehl").textContent = "";
 
+    konfetti();
+
     const bild = PROJEKT.schatzbild
       ? `<img src="${esc(PROJEKT.schatzbild)}" alt="Schatz" class="schatz-bild"
            onerror="this.style.display='none'">` : "";
     document.getElementById("ergebnis").innerHTML = `
-      <div class="erfolg ziel">
-        <div class="erfolg-titel">🎉 Schatz freigegeben!</div>
+      <div class="schatz-erfolg-gross">
+        <div class="schatz-erfolg-emoji">🏆</div>
+        <div class="schatz-erfolg-titel">Einsatz erfolgreich!</div>
+        <div class="schatz-erfolg-sub">Alle Gruppen haben das Lösungswort gefunden –<br>der Schatz ist freigegeben!</div>
       </div>
-      ${PROJEKT.schatztext ? `<div class="hinweis-box">${nl2br(esc(PROJEKT.schatztext))}</div>` : ""}
+      ${PROJEKT.schatztext ? `<div class="hinweis-box" style="margin-top:1.2rem;font-size:1.15rem">${nl2br(esc(PROJEKT.schatztext))}</div>` : ""}
       ${bild}`;
     document.getElementById("ergebnis").scrollIntoView({ behavior: "smooth" });
+  }
+
+  function konfetti() {
+    const wrap = document.createElement("div");
+    wrap.className = "konfetti-wrap";
+    document.body.appendChild(wrap);
+    const farben = ["#c8102e","#f97316","#facc15","#22c55e","#3b82f6","#a855f7","#fff"];
+    for (let i = 0; i < 60; i++) {
+      const t = document.createElement("div");
+      t.className = "konfetti-teil";
+      t.style.left = Math.random() * 100 + "%";
+      t.style.background = farben[Math.floor(Math.random() * farben.length)];
+      t.style.animationDelay = (Math.random() * 1.5) + "s";
+      t.style.animationDuration = (2 + Math.random() * 1.5) + "s";
+      t.style.width = t.style.height = (8 + Math.random() * 8) + "px";
+      wrap.appendChild(t);
+    }
+    setTimeout(() => wrap.remove(), 5000);
   }
 
   function fehler(titel, text) {

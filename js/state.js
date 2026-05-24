@@ -16,7 +16,7 @@ const KOMBI_BAUSTEINE = [
 ];
 
 // Definition der Typ-spezifischen Felder.
-// Grundfelder (name, typ, bilder, position, radius, githubLink, externerLink,
+// Grundfelder (name, typ, bilder, position, radius, githubLink,
 // externerBildlink, hinweisNaechste) liegen direkt auf der Station.
 // Alles hier Definierte landet in station.typFelder.
 const STATION_TYPES = {
@@ -149,7 +149,6 @@ function neueStation(state) {
     radius: state.projekt.standardRadius || 30,
     hinweisNaechste: "",
     githubLink: `station.html?station=${id}`,
-    externerLink: "",
     typFelder: {}
   };
 }
@@ -275,7 +274,6 @@ function migriere(data) {
     radius: base.projekt.standardRadius || 30,
     hinweisNaechste: "",
     githubLink: `station.html?station=${s.id}`,
-    externerLink: "",
     typFelder: {}
   }, s));
 

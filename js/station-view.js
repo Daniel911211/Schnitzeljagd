@@ -49,10 +49,14 @@
     if (!STATION.position) return zeigeAufgabe();
 
     document.getElementById("gate").innerHTML =
-      `<div class="gps-box"><div class="gps-spinner"></div><div>Standort wird geprüft…</div></div>`;
+      `<div class="gps-box gps-pruefen">
+        <div class="gps-spinner"></div>
+        <div class="gps-titel">Standort wird ermittelt…</div>
+        <div class="gps-zeile">Bitte warte einen Moment.</div>
+      </div>`;
 
     if (!navigator.geolocation)
-      return gpsFehler("Dein Gerät unterstützt keine Standortbestimmung.");
+      return gpsFehler("Dein Gerät unterstützt keine Standortbestimmung. Bitte ein anderes Gerät verwenden.");
 
     navigator.geolocation.getCurrentPosition(
       pos => {
@@ -63,18 +67,19 @@
         else gateAusserhalb(dist, radius);
       },
       err => gpsFehler(err.code === 1
-        ? "Standortzugriff wurde abgelehnt. Bitte in den Einstellungen erlauben."
-        : "Standort konnte nicht ermittelt werden."),
+        ? "Standortzugriff wurde abgelehnt.\nBitte erlaube den Standortzugriff im Browser und versuche es erneut."
+        : "Standort konnte nicht ermittelt werden.\nGehe nach draußen oder warte kurz und versuche es erneut."),
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
   }
 
   function gateAusserhalb(dist, radius) {
     document.getElementById("gate").innerHTML = `
-      <div class="gps-box ausserhalb">
-        <div class="gps-titel">Du bist noch nicht an der Station.</div>
+      <div class="gps-box gps-ausserhalb">
+        <div class="gps-titel">Du bist noch nicht nah genug.</div>
         <div class="gps-zeile">Entfernung zum Stationspunkt: <strong>${fmt(dist)}</strong></div>
-        <div class="gps-zeile">Benötigt: <strong>&le; ${radius} m</strong></div>
+        <div class="gps-zeile">Erlaubter Bereich: <strong>${radius} m</strong></div>
+        <div class="gps-tipp">Gehe näher an die Station heran und prüfe deinen Standort erneut.</div>
       </div>
       <button class="gross-btn" id="btn-retry">Standort erneut prüfen</button>`;
     document.getElementById("btn-retry").addEventListener("click", standortGate);
@@ -82,9 +87,9 @@
 
   function gpsFehler(text) {
     document.getElementById("gate").innerHTML = `
-      <div class="gps-box ausserhalb">
-        <div class="gps-titel">Standort nötig</div>
-        <div class="gps-zeile">${esc(text)}</div>
+      <div class="gps-box gps-fehler">
+        <div class="gps-titel">Standort nicht verfügbar</div>
+        ${text.split("\n").map(z => `<div class="gps-zeile">${esc(z)}</div>`).join("")}
       </div>
       <button class="gross-btn" id="btn-retry">Erneut versuchen</button>`;
     document.getElementById("btn-retry").addEventListener("click", standortGate);

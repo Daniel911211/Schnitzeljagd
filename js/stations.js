@@ -23,7 +23,7 @@ const Stations = (() => {
   function status(s) {
     return {
       marker: s.position ? "ok" : "off",
-      link:   s.githubLink || s.externerLink ? "ok" : "off",
+      link:   s.githubLink ? "ok" : "off",
       inhalt: s.name && s.aufgabe ? "ok" : (s.name ? "warn" : "off")
     };
   }

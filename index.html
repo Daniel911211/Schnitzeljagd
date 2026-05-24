@@ -144,6 +144,16 @@
     <section class="tab-panel" id="tab-export">
       <div class="seite">
         <div class="card">
+          <h3>Drucken</h3>
+          <p style="font-size:.9rem;color:#374151;margin-bottom:1rem">
+            Druckvorbereitungen für die Veranstaltung – direkt aus dem Browser, kein PDF-Tool nötig.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:.6rem">
+            <button class="btn btn-light" id="btn-druck-qr">QR-Codes drucken</button>
+            <button class="btn btn-light" id="btn-druck-leitung">Spielleitungsübersicht drucken</button>
+            <button class="btn btn-light" id="btn-druck-laufzettel">Laufzettel für Gruppen drucken</button>
+          </div>
+        </div>
+        <div class="card">
           <h3>Export für GitHub Pages</h3>
           <p style="font-size:.9rem;color:#374151;margin-bottom:1rem">
             Erzeugt ein ZIP für GitHub Pages mit Planungstool, Teilnehmerseiten, Schatzseite,
@@ -170,6 +180,7 @@
   <script src="js/groups.js"></script>
   <script src="js/worddb.js"></script>
   <script src="js/export.js"></script>
+  <script src="js/print.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

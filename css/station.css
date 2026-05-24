@@ -158,19 +158,27 @@ h1 {
   text-align: center; font-size: 1.1rem;
   box-shadow: 0 1px 4px rgba(0,0,0,.06);
 }
-.gps-box.ausserhalb { border-left: 5px solid var(--rot); text-align: left; }
+.gps-pruefen { border-left: 5px solid #3b82f6; text-align: center; }
+.gps-ausserhalb { border-left: 5px solid #f97316; text-align: left; }
+.gps-fehler { border-left: 5px solid var(--rot); text-align: left; }
 .gps-box.erreicht {
   background: #e8f5ec; color: #15803d; font-weight: 700;
   border-left: 5px solid #15803d;
 }
 .gps-titel {
   font-family: var(--display); font-weight: 700;
-  font-size: 1.3rem; color: var(--rot); margin-bottom: .6rem;
+  font-size: 1.3rem; color: var(--kohle); margin-bottom: .6rem;
 }
+.gps-ausserhalb .gps-titel { color: #c2410c; }
+.gps-fehler .gps-titel { color: var(--rot-dunkel); }
 .gps-zeile { font-size: 1.1rem; margin: .25rem 0; }
+.gps-tipp {
+  font-size: .95rem; color: #6b7280;
+  margin-top: .7rem; font-style: italic;
+}
 .gps-spinner {
   width: 34px; height: 34px; margin: 0 auto .7rem;
-  border: 4px solid #e5e7eb; border-top-color: var(--rot);
+  border: 4px solid #e5e7eb; border-top-color: #3b82f6;
   border-radius: 50%; animation: spin 1s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -190,3 +198,39 @@ h1 {
 .schatz-status.ok { color: #15803d; }
 .schatz-status.fehler { color: var(--rot); }
 .schatz-bild { width: 100%; border-radius: 12px; margin-top: 1rem; display: block; }
+
+/* ---------- Schatzfreigabe – Konfetti + Abschluss ---------- */
+.konfetti-wrap {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; overflow: hidden; z-index: 999;
+}
+.konfetti-teil {
+  position: absolute; top: -20px;
+  width: 10px; height: 10px; border-radius: 2px;
+  animation: falldown 2.5s ease-in forwards;
+}
+@keyframes falldown {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+.schatz-erfolg-gross {
+  background: linear-gradient(135deg, #fffbf0 0%, #fef3c7 100%);
+  border-radius: 16px; padding: 2rem 1.5rem;
+  text-align: center; margin-top: 1.5rem;
+  border: 2px solid #d4a017;
+  box-shadow: 0 4px 20px rgba(212,160,23,.2);
+}
+.schatz-erfolg-emoji { font-size: 3.5rem; margin-bottom: .5rem; }
+.schatz-erfolg-titel {
+  font-family: var(--display); font-weight: 700;
+  font-size: 2rem; color: #7c5200; margin-bottom: .4rem;
+}
+.schatz-erfolg-sub {
+  font-size: 1.1rem; color: #92400e;
+}
+.schatz-bild {
+  width: 100%; border-radius: 12px;
+  margin-top: 1.2rem; display: block;
+  box-shadow: 0 4px 16px rgba(0,0,0,.15);
+}

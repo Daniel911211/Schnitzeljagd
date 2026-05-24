@@ -19,6 +19,7 @@ const App = (() => {
     if (window.Groups) Groups.init();
     if (window.WordDB) WordDB.init();
     if (window.ExportTool) ExportTool.init();
+    if (window.PrintTool) PrintTool.init();
     aktiviereTab("allgemein");
   }
 
