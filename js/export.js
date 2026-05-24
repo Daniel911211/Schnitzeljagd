@@ -2,17 +2,17 @@
  * export.js  –  Validierung + Export für GitHub Pages (ZIP)
  *   - data.json wird OHNE Klartextlösungen erzeugt (Hash + XOR)
  *   - QR-PNG je Station × Gruppe
- *   - Teilnehmer-Site (station.html + Assets) gebündelt
+ *   - Stationsseite (station.html + Assets) gebündelt
  *   Die wortdatenbank und Klartextlösungen bleiben aus dem Export.
  * ===================================================================== */
 
 const ExportTool = (() => {
   let berichtEl, btnEl;
 
-  // statische Dateien, die in die Teilnehmer-Site gehören (per fetch geholt)
-  // Text-Assets der Teilnehmer-Site UND des Planungstools (index.html)
+  // statische Dateien, die in die Stationsseite gehören (per fetch geholt)
+  // Text-Assets der Stationsseite UND des Planungstools (index.html)
   const ASSETS = [
-    // Teilnehmer-Site
+    // Stationsseite
     "station.html",
     "schatz.html",
     "css/station.css",
@@ -433,7 +433,7 @@ const ExportTool = (() => {
       "Pflichtfelder korrekt ausgefüllt, kann über \"ZIP erzeugen\" das Exportpaket",
       "heruntergeladen werden.",
       "",
-      "Das ZIP enthält die fertige Teilnehmer-Site mit gehashten Daten (keine",
+      "Das ZIP enthält die fertige Stationsseite mit verschlüsselten Daten (keine",
       "Klartextlösungen), QR-Codes für jede Station und Gruppe sowie das Planungstool",
       "selbst.",
       "",
