@@ -20,7 +20,7 @@
     return;
   }
 
-  let STATION = null, GRUPPE = null;
+  let STATION = null, GRUPPE = null, DATA_PROJEKT = {};
 
   fetch("daten/data.json")
     .then(r => r.json())
@@ -28,6 +28,7 @@
     .catch(() => fehler("Daten nicht ladbar", "daten/data.json konnte nicht geladen werden."));
 
   function start(data) {
+    DATA_PROJEKT = data.projekt || {};
     STATION = (data.stationen || []).find(s => s.id === stationId);
     GRUPPE = (data.gruppen || {})[gruppeId];
     if (!STATION) return fehler("Station unbekannt", "Station " + stationId + " nicht gefunden.");
@@ -46,7 +47,7 @@
 
   /* ================= GPS-/Radiusgate ================= */
   function standortGate() {
-    if (!STATION.position) return zeigeAufgabe();
+    if (!STATION.position || DATA_PROJEKT.gpsAktiv === false) return zeigeAufgabe();
 
     document.getElementById("gate").innerHTML =
       `<div class="gps-box gps-pruefen">

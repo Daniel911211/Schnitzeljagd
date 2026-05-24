@@ -127,6 +127,7 @@ function leeresProjekt() {
       beschreibung: "",
       standardRadius: 30,
       githubBasislink: "",
+      gpsAktiv: true,
       schatzbild: "",
       schatztext: ""
     },

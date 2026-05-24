@@ -215,6 +215,7 @@ const ExportTool = (() => {
         titel: s.projekt.titel,
         beschreibung: s.projekt.beschreibung,
         githubBasislink: normBasis(s.projekt.githubBasislink),
+        gpsAktiv: s.projekt.gpsAktiv !== false,
         schatzbild: s.projekt.schatzbild || "",
         schatztext: s.projekt.schatztext || ""
       },

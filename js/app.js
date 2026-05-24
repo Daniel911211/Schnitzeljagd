@@ -49,6 +49,10 @@ const App = (() => {
         Store.commit();
       });
     });
+    document.getElementById("p-gpsAktiv").addEventListener("change", e => {
+      Store.state.projekt.gpsAktiv = e.target.checked;
+      Store.commit();
+    });
   }
   function renderAllgemein(state) {
     const p = state.projekt;
@@ -58,6 +62,7 @@ const App = (() => {
     setVal("p-githubBasislink", p.githubBasislink);
     setVal("p-schatzbild", p.schatzbild);
     setVal("p-schatztext", p.schatztext);
+    document.getElementById("p-gpsAktiv").checked = p.gpsAktiv !== false;
     // Titel in der Kopfzeile spiegeln
     document.getElementById("titel-anzeige").textContent =
       p.titel ? "· " + p.titel : "· Neues Projekt";
