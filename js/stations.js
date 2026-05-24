@@ -90,8 +90,8 @@ const Stations = (() => {
           </select>
         </div>
         <div class="feld">
-          <label>Aufgabe (allgemeine Beschreibung)</label>
-          <textarea id="f-aufgabe">${esc(s.aufgabe)}</textarea>
+          <label>Stationseinleitung</label>
+          <textarea id="f-aufgabe" placeholder="Einleitungstext zur Station&#10;Ortsbeschreibung („Ihr steht vor dem roten Gebäude…")&#10;Allgemeine Hinweise">${esc(s.aufgabe)}</textarea>
         </div>
         <div class="row">
           <div class="feld">
