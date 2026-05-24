@@ -1,209 +1,84 @@
 {
   "version": "1.0",
   "projekt": {
-    "titel": "JF-Schnitzeljagd Beispiel",
-    "beschreibung": "Testdatensatz für die Jugendfeuerwehr – nur zu Demozwecken.",
-    "githubBasislink": "https://BENUTZER.github.io/schnitzeljagd/",
-    "schatzbild": "bilder/schatz.jpg",
-    "schatztext": "Glückwunsch! Der Schatz liegt hinter dem Gerätehaus unter der großen Eiche."
+    "titel": "JF Schatzsuche",
+    "beschreibung": "Die Gruppen bekommen Hinweis zur nächsten Station",
+    "githubBasislink": "https://daniel911211.github.io/Schnitzeljagd/",
+    "schatzbild": "https://daniel911211.github.io/Schnitzeljagd/bilder/Schatz.png",
+    "schatztext": "MTW - YEAH"
   },
   "stationen": [
     {
       "id": "01",
-      "name": "Der lange Helfer",
+      "name": "Tankstelle",
       "typ": "raetsel",
       "modus": "antwort",
       "tolerant": true,
-      "anzeigeText": "Ich bin lang, liege aufgerollt und durch mich fließt das Löschmittel zum Feuer. Wie heiße ich?",
+      "anzeigeText": "Hier halten Autos kurz an,\nbekommen Kraft aus Zapfhahn dran.\nBenzin und Diesel gibt es hier,\nwo stehst du? Sag es mir!",
       "position": {
-        "lat": 50.555,
-        "lng": 9.68
+        "lat": 50.45051247316685,
+        "lng": 9.614372849464418
       },
-      "radius": 30,
-      "bilder": [
-        "bilder/station-01/bild-1.jpg"
-      ],
-      "externerBildlink": "",
-      "hinweisNaechste": "Geht zum großen Hydranten an der Hauptstraße.",
+      "radius": 60,
+      "bilder": [],
+      "externerBildlink": "https://daniel911211.github.io/Bilder/scheuneerlenhof.png",
+      "hinweisNaechste": "Dort, wo Briefe auf Reisen gehen\nund Pakete kurz verweilen,\nfindet ihr den nächsten Ort –\nsucht das Zeichen der gelben Meilen.",
       "externerLink": "",
-      "loesungHash": "8b863197a746ac537ea7861bb42ea90137bdc9f65aa860bba3237e1a1ef172c6"
+      "loesungHash": "f7dfb7cd8ef8a3f173ebb5383a636aae2094df77fb1c1822b38b5d4124c287da"
     },
     {
       "id": "02",
-      "name": "Das Codewort am Hydranten",
-      "typ": "codewort",
-      "modus": "antwort",
-      "tolerant": true,
-      "anzeigeText": "Am Hydranten findet ihr eine Plakette. Lest das Codewort ab und gebt es ein.",
-      "position": {
-        "lat": 50.5562,
-        "lng": 9.6815
-      },
-      "radius": 30,
-      "bilder": [
-        "bilder/station-02/bild-1.jpg"
-      ],
-      "externerBildlink": "",
-      "hinweisNaechste": "Weiter zum Spielplatz am Park.",
-      "externerLink": "",
-      "loesungHash": "efe570f18ab879062541fced900877dd8f0b10744271177bca8a777f9d8ff309"
-    },
-    {
-      "id": "03",
-      "name": "Notruf-Wissen",
-      "typ": "feuerwehrwissen",
-      "modus": "antwort",
-      "tolerant": true,
-      "anzeigeText": "Wie lautet der Notruf der Feuerwehr in Deutschland?",
-      "position": {
-        "lat": 50.5575,
-        "lng": 9.6805
-      },
-      "radius": 30,
-      "bilder": [
-        "bilder/station-03/bild-1.jpg"
-      ],
-      "externerBildlink": "",
-      "hinweisNaechste": "Geht zur Wiese hinter der Schule.",
-      "externerLink": "",
-      "zusatz": {
-        "bonusfrage": "Welche Nummer ruft man bei der Polizei?"
-      },
-      "loesungHash": "b1556dea32e9d0cdbfed038fd7787275775ea40939c146a64e205bcb349ad02f"
-    },
-    {
-      "id": "04",
-      "name": "Schilderkunde",
+      "name": "Post",
       "typ": "feuerwehrwissen",
       "modus": "mc",
       "tolerant": true,
-      "anzeigeText": "Welche Grundfarbe hat ein Hinweisschild für einen Hydranten?",
+      "anzeigeText": "Welche Telefonnummer wählst du in Deutschland bei Feuer oder einem medizinischen Notfall?",
       "position": {
-        "lat": 50.5568,
-        "lng": 9.679
+        "lat": 50.45097324130466,
+        "lng": 9.614555239677431
       },
-      "radius": 30,
-      "bilder": [
-        "bilder/station-04/bild-1.jpg"
-      ],
+      "radius": 60,
+      "bilder": [],
       "externerBildlink": "",
-      "hinweisNaechste": "Weiter zum Sportplatz.",
+      "hinweisNaechste": "Wo Entscheidungen für den Ort entstehen,\nBürger kommen und Beamte gehen.\nDort, wo der Bürgermeister sein Amt verwaltet,\nfindet ihr den nächsten Hinweis gestaltet.",
       "externerLink": "",
       "optionen": [
-        "Rot",
-        "Blau",
-        "Grün"
+        "112",
+        "110",
+        "9112",
+        "9110"
       ],
-      "loesungHash": "8b819df96b728f7f59f6b42903306b5507a7e6311ce998242a65bf535d126afc"
+      "loesungHash": "b1556dea32e9d0cdbfed038fd7787275775ea40939c146a64e205bcb349ad02f"
     },
     {
-      "id": "05",
-      "name": "Zielspritzen",
-      "typ": "geschicklichkeit",
+      "id": "03",
+      "name": "Fußball",
+      "typ": "feuerwehrwissen",
       "modus": "antwort",
       "tolerant": true,
-      "anzeigeText": "Trefft mit dem Wasserstrahl die Dose. Der Betreuer nennt euch danach das Bestätigungswort.",
+      "anzeigeText": "Wie lang ist ein C-Schlauch",
       "position": {
-        "lat": 50.558,
-        "lng": 9.6822
+        "lat": 50.450727048015295,
+        "lng": 9.614056348800661
       },
-      "radius": 30,
-      "bilder": [
-        "bilder/station-05/bild-1.jpg"
-      ],
-      "externerBildlink": "",
-      "hinweisNaechste": "Letzte Station: Treffpunkt am Gerätehaus.",
+      "radius": 60,
+      "bilder": [],
+      "externerBildlink": "https://daniel911211.github.io/Bilder/Kellerbrand.png",
+      "hinweisNaechste": "Wo früher Bergmannsgruß erklingt,\nund „Glück auf“ euch weiterbringt.\nSucht den Ort mit diesem Namen,\ndort wartet eure nächste Aufgabe zusammen.",
       "externerLink": "",
       "zusatz": {
-        "zeit": "max. 2 Minuten"
+        "bonusfrage": "Wie lange ist ein B-Schlauch"
       },
-      "loesungHash": "a973f7387d93a23dc27d50ff66224e3a295159a43ca39aa115d9dc4cc9e8583e"
-    },
-    {
-      "id": "06",
-      "name": "Ziel am Gerätehaus",
-      "typ": "zielstation",
-      "modus": "button",
-      "tolerant": true,
-      "anzeigeText": "Geschafft! Ihr habt alle Stationen erreicht. Holt euch hier euren letzten Buchstaben ab.",
-      "position": {
-        "lat": 50.5559,
-        "lng": 9.6808
-      },
-      "radius": 30,
-      "bilder": [
-        "bilder/station-06/bild-1.jpg"
-      ],
-      "externerBildlink": "",
-      "hinweisNaechste": "Notiert euren Buchstaben und setzt euer Lösungswort zusammen!",
-      "externerLink": ""
+      "loesungHash": "e629fa6598d732768f7c726b4b621285f9c3b85303900aa912017db7617d8bdb"
     }
   ],
   "gruppen": {
     "G1": {
-      "loesungswortHash": "41a2371cc45ac95d91a77a5f06003408b2eae93750fe9c0816608123024a766c",
+      "loesungswortHash": "2c5df905f512c6a62b65f6ca04d09344fa537ad360e276653c3b011bfde2466a",
       "buchstaben": {
-        "01": "df",
-        "02": "bd",
-        "03": "f4",
-        "04": "d9",
-        "05": "fd",
-        "06": "a7"
-      }
-    },
-    "G2": {
-      "loesungswortHash": "462c049903fea2b3cca80abc02c82c6f5d92bb201ba27cedb441e132e176623f",
-      "buchstaben": {
-        "01": "c6",
-        "02": "a9",
-        "03": "f4",
-        "04": "ca",
-        "05": "e5",
-        "06": "af"
-      }
-    },
-    "G3": {
-      "loesungswortHash": "9b2afa1b87a723db8c4a429d2c97ca249e406ccb997390479091defb2ee3943f",
-      "buchstaben": {
-        "01": "ce",
-        "02": "bf",
-        "03": "ff",
-        "04": "de",
-        "05": "f9",
-        "06": "af"
-      }
-    },
-    "G4": {
-      "loesungswortHash": "65285165934a03018f8eedae056596cb90e6070685ad935458eef092ba25cf6f",
-      "buchstaben": {
-        "01": "c2",
-        "02": "bb",
-        "03": "e3",
-        "04": "ce",
-        "05": "e5",
-        "06": "a7"
-      }
-    },
-    "G5": {
-      "loesungswortHash": "0933e8aa60a4f1c8f2025ba4acbc40238aebc613d61bb05e29872f7004fcb73d",
-      "buchstaben": {
-        "01": "c5",
-        "02": "aa",
-        "03": "f9",
-        "04": "c7",
-        "05": "ec",
-        "06": "a6"
-      }
-    },
-    "G6": {
-      "loesungswortHash": "6906f3b49e80d5c56bc61bdc2125fc5318d634adbbd41837840ffe48fe9b7121",
-      "buchstaben": {
-        "01": "d8",
-        "02": "aa",
-        "03": "e3",
-        "04": "dc",
-        "05": "e8",
-        "06": "b1"
+        "01": "a4",
+        "02": "f6",
+        "03": "a7"
       }
     }
   }

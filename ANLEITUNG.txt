@@ -2,24 +2,26 @@ SCHNITZELJAGD – EXPORT
 ================================
 
 Dieser Ordner enthält BEIDES:
-  A) Teilnehmer-Site (station.html, schatz.html, qr/, daten/)
-  B) Planungstool (index.html) zum Online-Bearbeiten
+  A) die Teilnehmer-Site (station.html, schatz.html, qr/, daten/)
+  B) das Planungstool (index.html) zum Online-Bearbeiten
 
 TEILNEHMER
 ----------
 1. Diesen Ordnerinhalt ins GitHub-Pages-Repository legen.
 2. Bilder gemäß bilder/README.txt in /bilder/ ablegen.
 3. Veröffentlichen. Aufruf einer Station z. B.:
-   https://BENUTZER.github.io/schnitzeljagd/station.html?station=01&gruppe=G1
-   Schatzseite: https://BENUTZER.github.io/schnitzeljagd/schatz.html
-   QR-Codes liegen unter /qr/.
+   https://daniel911211.github.io/Schnitzeljagd/station.html?station=01&gruppe=G1
+   Schatzseite: https://daniel911211.github.io/Schnitzeljagd/schatz.html
+   QR-Codes liegen unter /qr/ (je Station und Gruppe).
 
 PLANUNG (online)
 ----------------
-Planungstool öffnen: https://BENUTZER.github.io/schnitzeljagd/
-Projekt laden/speichern über die Schaltflächen oben (JSON vom Gerät).
+Planungstool öffnen: https://daniel911211.github.io/Schnitzeljagd/
+Projekt laden/speichern über die Schaltflächen oben (JSON-Datei vom Gerät).
 
 WICHTIG ZUR SICHERHEIT
 ----------------------
 - daten/data.json (Teilnehmer) enthält KEINE Klartextlösungen (nur Hashes).
-- Bearbeitbares Projekt-JSON (mit Klartext) NICHT öffentlich ins Repo legen.
+- Das bearbeitbare Projekt-JSON (mit Klartextlösungen) NICHT öffentlich ins
+  Repository legen – sonst sind die Lösungen sichtbar. Lokal aufbewahren und
+  bei Bedarf über 'JSON laden' einlesen.
