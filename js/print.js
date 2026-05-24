@@ -256,10 +256,10 @@ const PrintTool = (function () {
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([sid, b]) => `${sid}=${b}`).join(", ");
       return `<tr>
-        <td style="width:35pt">${esc(gid)}</td>
-        <td>________________________________________________________________________________</td>
-        <td style="width:65pt;white-space:nowrap">${esc(grp.loesungswort || "—")}</td>
-        <td style="width:130pt;font-size:8.5pt;white-space:nowrap">${esc(buchstaben || "—")}</td>
+        <td class="gruppe-col">${esc(gid)}</td>
+        <td class="kinder-col"><div class="kinder-linie"></div></td>
+        <td class="loesungswort-col">${esc(grp.loesungswort || "—")}</td>
+        <td class="buchstaben-col" style="font-size:8.5pt">${esc(buchstaben || "—")}</td>
       </tr>`;
     }).join("");
 
@@ -279,6 +279,15 @@ const PrintTool = (function () {
         .col-ort   { width: 100pt; }
         .col-check { width: 24pt; text-align: center; }
         .col-bem   { }
+        .gruppen-table { width: 100%; table-layout: fixed; }
+        .gruppe-col     { width: 45pt; }
+        .kinder-col     { width: 58%; }
+        .loesungswort-col { width: 90pt; }
+        .buchstaben-col { width: 150pt; }
+        .kinder-linie {
+          border-bottom: 1.3pt solid #1c2024;
+          height: 16pt; width: 100%;
+        }
       </style>
     </head><body>
       ${kopfHTML("INTERN – Spielleitungsübersicht", titel, "")}
@@ -305,9 +314,12 @@ const PrintTool = (function () {
       </table>
 
       <h2>Gruppen / Lösungswörter</h2>
-      <table>
+      <table class="gruppen-table">
         <thead><tr>
-          <th>Gruppe</th><th>Namen der Kinder</th><th>Lösungswort</th><th>Buchstaben je Station</th>
+          <th class="gruppe-col">Gruppe</th>
+          <th class="kinder-col">Namen der Kinder</th>
+          <th class="loesungswort-col">Lösungswort</th>
+          <th class="buchstaben-col">Buchstaben je Station</th>
         </tr></thead>
         <tbody>${grRows}</tbody>
       </table>
