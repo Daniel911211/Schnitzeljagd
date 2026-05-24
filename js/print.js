@@ -143,16 +143,23 @@ const PrintTool = (function () {
 
     let karten = "";
     for (const [gid, grp] of gruppen) {
+      // G1 → Gruppe 1, G2 → Gruppe 2, sonst direkt anzeigen
+      const gruppeLabel = /^G(\d+)$/.test(gid)
+        ? "Gruppe " + gid.slice(1)
+        : "Gruppe " + esc(gid);
+
       karten += `<div class="gruppen-block">
-        <h2>Gruppe ${esc(gid)}${grp.name ? " – " + esc(grp.name) : ""}</h2>
+        ${kopfHTML("QR-Codes", titel, "")}
+        <h2>${gruppeLabel}</h2>
         <div class="qr-grid">`;
       for (const st of stationen) {
         const dataUrl = qrMap[gid + "_" + st.id];
+        const stNr = parseInt(st.id, 10) || st.id;
         karten += `
           <div class="qr-karte">
             <img src="${dataUrl}" alt="QR" class="qr-img">
-            <div class="qr-gruppe">Gruppe ${esc(gid)}</div>
-            <div class="qr-station">Station ${esc(st.id)} – ${esc(st.name || "–")}</div>
+            <div class="qr-station-label">Station ${stNr}</div>
+            <div class="qr-gruppe-label">${gruppeLabel}</div>
           </div>`;
       }
       karten += `</div></div>`;
@@ -167,14 +174,17 @@ const PrintTool = (function () {
         .qr-karte { border: 1.5pt solid #e5e7eb; border-radius: 8pt;
                     padding: 10pt; text-align: center; width: 175pt; }
         .qr-img { width: 155pt; height: 155pt; display: block; margin: 0 auto 8pt; }
-        .qr-gruppe { font-family: 'Oswald', sans-serif; font-weight: 700;
-                     font-size: 12pt; color: #c8102e; }
-        .qr-station { font-size: 10pt; color: #374151; margin-top: 3pt; }
-        .gruppen-block { page-break-inside: avoid; }
-        @media print { .gruppen-block { page-break-after: always; } }
+        .qr-station-label { font-family: 'Oswald', sans-serif; font-weight: 700;
+                     font-size: 13pt; color: #c8102e; }
+        .qr-gruppe-label { font-size: 9.5pt; color: #6b7280; margin-top: 3pt; }
+        .gruppen-block { page-break-before: always; }
+        .gruppen-block:first-child { page-break-before: auto; }
+        @media print {
+          .gruppen-block { page-break-before: always; }
+          .gruppen-block:first-child { page-break-before: auto; }
+        }
       </style>
     </head><body>
-      ${kopfHTML("QR-Codes", titel, stationen.length + " Stationen · " + gruppen.length + " Gruppen")}
       <button class="btn-druck kein-druck" onclick="window.print()">🖨 Drucken</button>
       ${karten}
     </body></html>`;
@@ -247,8 +257,8 @@ const PrintTool = (function () {
         .map(([sid, b]) => `${sid}=${b}`).join(", ");
       return `<tr>
         <td style="width:40pt">${esc(gid)}</td>
-        <td style="width:180pt">____________________________________________</td>
-        <td style="width:80pt">${esc(grp.loesungswort || "—")}</td>
+        <td style="width:240pt">________________________________________________________</td>
+        <td style="width:70pt">${esc(grp.loesungswort || "—")}</td>
         <td style="font-size:8.5pt">${esc(buchstaben || "—")}</td>
       </tr>`;
     }).join("");
@@ -286,7 +296,7 @@ const PrintTool = (function () {
           <th class="col-name">Name</th>
           <th class="col-typ">Typ</th>
           <th class="col-loesung">Lösung / Antwort</th>
-          <th class="col-ort">Nächster Ort / Kurzinfo</th>
+          <th class="col-ort">Nächster Ort</th>
           <th class="col-check">QR</th>
           <th class="col-check">GPS</th>
           <th class="col-bem">Bemerkung</th>
@@ -321,8 +331,8 @@ const PrintTool = (function () {
     for (const [gid] of gruppen) {
       const rows = stationen.map(st => `<tr>
         <td class="col-station">Station ${esc(st.id)} – ${esc(st.name || "–")}</td>
-        <td class="col-buch">______</td>
-        <td class="col-notiz"></td>
+        <td class="col-buch"><div class="buch-linie"></div></td>
+        <td class="col-notiz"><div class="notiz-linie"></div></td>
       </tr>`).join("");
 
       zettel += `
@@ -334,7 +344,7 @@ const PrintTool = (function () {
           <table>
             <thead><tr>
               <th class="col-station">Station</th>
-              <th class="col-buch" style="text-align:center">Buchstabe</th>
+              <th class="col-buch">Buchstabe</th>
               <th class="col-notiz">Notiz / Hinweis</th>
             </tr></thead>
             <tbody>${rows}</tbody>
@@ -353,16 +363,26 @@ const PrintTool = (function () {
       <style>
         .zettel { page-break-after: always; padding-bottom: 10pt; }
         .zettel:last-child { page-break-after: auto; }
-        .col-station { width: auto; }
-        .col-buch { width: 55pt; text-align: center; font-size: 13pt; letter-spacing: 3pt; }
+        .col-station { width: 50%; }
+        .col-buch { width: 55pt; text-align: center; }
         .col-notiz { width: 45%; }
-        td.col-buch { text-align: center; }
+        th.col-buch { text-align: center; }
+        .buch-linie {
+          border-bottom: 1.5pt dashed #9ca3af;
+          width: 36pt; margin: 4pt auto 0;
+          height: 16pt;
+        }
+        .notiz-linie {
+          border-bottom: 1pt solid #d1d5db;
+          width: 100%; height: 16pt;
+        }
         .loesungswort-block { margin-top: 20pt; }
         .loesungswort-label { font-weight: 700; font-size: 11pt; margin-bottom: 8pt; }
         .loesungswort-linie {
           border-bottom: 1.5pt solid #1c2024;
           width: 100%; height: 20pt;
         }
+      </style>
       </style>
     </head><body>
       <button class="btn-druck kein-druck" onclick="window.print()">🖨 Drucken</button>
