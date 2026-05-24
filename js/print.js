@@ -35,12 +35,12 @@ const PrintTool = (function () {
     return text.length > max ? text.slice(0, max).trimEnd() + "…" : text;
   }
 
-  function validiere(brauchtGruppen = true) {
+  function validiere({ brauchtGruppen = true, brauchtBasislink = false } = {}) {
     const s = Store.state;
     const fehler = [];
     if (!s.stationen.length) fehler.push("Keine Stationen vorhanden.");
     if (brauchtGruppen && !Object.keys(s.gruppen).length) fehler.push("Keine Gruppen vorhanden.");
-    if (!s.projekt.githubBasislink.trim()) fehler.push("GitHub-Basislink fehlt – Links und QR-Codes werden nicht korrekt erzeugt.");
+    if (brauchtBasislink && !s.projekt.githubBasislink.trim()) fehler.push("GitHub-Basislink fehlt – Links und QR-Codes werden nicht korrekt erzeugt.");
     return fehler;
   }
 
@@ -124,7 +124,7 @@ const PrintTool = (function () {
   /* =================== 1. QR-Codes drucken =================== */
 
   function druckeQrCodes() {
-    const fehler = validiere(true);
+    const fehler = validiere({ brauchtGruppen: true, brauchtBasislink: true });
     if (fehler.length) { alert("Export nicht möglich:\n\n" + fehler.join("\n")); return; }
 
     const s = Store.state;
@@ -225,7 +225,7 @@ const PrintTool = (function () {
   }
 
   function druckeSpielleitung() {
-    const fehler = validiere(false);
+    const fehler = validiere({ brauchtGruppen: false, brauchtBasislink: false });
     if (fehler.length) { alert("Nicht möglich:\n\n" + fehler.join("\n")); return; }
 
     const s = Store.state;
@@ -256,10 +256,10 @@ const PrintTool = (function () {
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([sid, b]) => `${sid}=${b}`).join(", ");
       return `<tr>
-        <td style="width:40pt">${esc(gid)}</td>
-        <td style="width:240pt">________________________________________________________</td>
-        <td style="width:70pt">${esc(grp.loesungswort || "—")}</td>
-        <td style="font-size:8.5pt">${esc(buchstaben || "—")}</td>
+        <td style="width:35pt">${esc(gid)}</td>
+        <td>________________________________________________________________________________</td>
+        <td style="width:65pt;white-space:nowrap">${esc(grp.loesungswort || "—")}</td>
+        <td style="width:130pt;font-size:8.5pt;white-space:nowrap">${esc(buchstaben || "—")}</td>
       </tr>`;
     }).join("");
 
@@ -319,7 +319,7 @@ const PrintTool = (function () {
   /* =================== 3. Laufzettel =================== */
 
   function druckeLaufzettel() {
-    const fehler = validiere(true);
+    const fehler = validiere({ brauchtGruppen: true, brauchtBasislink: false });
     if (fehler.length) { alert("Nicht möglich:\n\n" + fehler.join("\n")); return; }
 
     const s = Store.state;
@@ -382,7 +382,6 @@ const PrintTool = (function () {
           border-bottom: 1.5pt solid #1c2024;
           width: 100%; height: 20pt;
         }
-      </style>
       </style>
     </head><body>
       <button class="btn-druck kein-druck" onclick="window.print()">🖨 Drucken</button>
