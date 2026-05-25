@@ -286,6 +286,10 @@ main { flex: 1; overflow: hidden; position: relative; }
 .btn-danger:hover { background: #fde8eb; }
 .btn-sm { padding: .35rem .6rem; font-size: .78rem; }
 .btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-info  { background: #2563eb; color: #fff; border-color: #2563eb; }
+.btn-info:hover  { background: #1d4ed8; }
+.btn-print { background: #eff6ff; color: #1d4ed8; border-color: #93c5fd; }
+.btn-print:hover { background: #dbeafe; }
 
 .editor-foot {
   display: flex; gap: .75rem; align-items: center;

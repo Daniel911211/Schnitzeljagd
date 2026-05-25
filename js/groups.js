@@ -103,7 +103,7 @@ const Groups = (() => {
           </select>
         </div>` : `<div class="hinweis">Wortdatenbank ist leer — Wort manuell eingeben.</div>`}
         <div class="editor-foot" style="margin-top:.5rem">
-          <button class="btn btn-light btn-sm" id="btn-del-gruppe">Gruppe löschen</button>
+          <button class="btn btn-danger btn-sm" id="btn-del-gruppe">Gruppe löschen</button>
         </div>
       </div>
 
