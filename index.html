@@ -213,8 +213,18 @@
             Erzeugt ein ZIP für GitHub Pages mit Planungstool, Teilnehmerseiten, Schatzseite,
             verschlüsselter <code>data.json</code> (keine Klartextlösungen), QR-Codes je Station × Gruppe
             sowie Ordnerstruktur für Bilder.</p>
+          <div class="feld">
+            <label>n8n Webhook-URL</label>
+            <input type="url" id="n8n-webhook" value="http://localhost:5678/webhook/schnitzeljagd-upload">
+          </div>
+          <div class="feld">
+            <label>Upload-Token</label>
+            <input type="password" id="n8n-token" autocomplete="off" placeholder="Token aus dem n8n-Workflow">
+            <div class="hinweis">Wird nicht gespeichert – bei jedem Upload neu eingeben.</div>
+          </div>
           <div class="editor-foot" style="margin-top:0">
             <button class="btn btn-primary" id="btn-export-zip" disabled>ZIP erzeugen</button>
+            <button class="btn btn-success" id="btn-export-n8n" disabled>Über n8n veröffentlichen</button>
           </div>
           <div id="export-bericht" class="export-bericht"></div>
         </div>
