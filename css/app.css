@@ -290,8 +290,6 @@ main { flex: 1; overflow: hidden; position: relative; }
 .btn-info:hover  { background: #1d4ed8; }
 .btn-print { background: #eff6ff; color: #1d4ed8; border-color: #93c5fd; }
 .btn-print:hover { background: #dbeafe; }
-.btn-success { background: #15803d; color: #fff; border-color: #15803d; }
-.btn-success:hover { background: #166534; }
 
 .editor-foot {
   display: flex; gap: .75rem; align-items: center;

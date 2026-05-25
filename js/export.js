@@ -7,7 +7,7 @@
  * ===================================================================== */
 
 const ExportTool = (() => {
-  let berichtEl, btnEl, btnN8nEl, n8nUrlEl, n8nTokenEl;
+  let berichtEl, btnEl;
 
   // statische Dateien, die in die Stationsseite gehören (per fetch geholt)
   // Text-Assets der Stationsseite UND des Planungstools (index.html)
@@ -56,10 +56,6 @@ const ExportTool = (() => {
     berichtEl = document.getElementById("export-bericht");
     btnEl = document.getElementById("btn-export-zip");
     btnEl.addEventListener("click", starteExport);
-    btnN8nEl = document.getElementById("btn-export-n8n");
-    n8nUrlEl = document.getElementById("n8n-webhook");
-    n8nTokenEl = document.getElementById("n8n-token");
-    if (btnN8nEl) btnN8nEl.addEventListener("click", starteN8nUpload);
     Store.subscribe(_scheduleCheck);
   }
 
@@ -164,12 +160,10 @@ const ExportTool = (() => {
     if (!fehler.length) {
       html += `<div class="bericht-ok">✓ Keine blockierenden Fehler – Export möglich.</div>`;
       btnEl.disabled = false;
-      if (btnN8nEl) btnN8nEl.disabled = false;
     } else {
       html += `<div class="bericht-fehler"><strong>${fehler.length} Fehler – Export blockiert:</strong>
         <ul>${fehler.map(f => `<li>${esc(f)}</li>`).join("")}</ul></div>`;
       btnEl.disabled = true;
-      if (btnN8nEl) btnN8nEl.disabled = true;
     }
     if (warn.length) {
       html += `<div class="bericht-warn"><strong>${warn.length} Hinweis(e):</strong>
@@ -259,44 +253,6 @@ const ExportTool = (() => {
     } finally {
       btnEl.textContent = altText;
       btnEl.disabled = false;
-    }
-  }
-
-  /* =================== n8n Upload (lokal) =================== */
-  async function starteN8nUpload() {
-    const v = validiere();
-    zeigeBericht(v);
-    if (v.fehler.length) return;
-
-    const url = (n8nUrlEl && n8nUrlEl.value || "").trim();
-    const token = (n8nTokenEl && n8nTokenEl.value || "").trim();
-    if (!url)   { alert("n8n Webhook-URL fehlt."); return; }
-    if (!token) { alert("Upload-Token fehlt."); return; }
-
-    const altText = btnN8nEl.textContent;
-    btnN8nEl.disabled = true;
-    btnEl.disabled = true;
-    btnN8nEl.textContent = "Sende…";
-
-    try {
-      const data = await baueDatenJSON();
-      const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Schnitzeljagd-Token": token
-        },
-        body: JSON.stringify(data)
-      });
-      if (!res.ok) throw new Error("HTTP " + res.status + " " + res.statusText);
-      alert("Upload an n8n erfolgreich.");
-      n8nTokenEl.value = "";
-    } catch (e) {
-      alert("Upload fehlgeschlagen: " + e.message);
-      console.error(e);
-    } finally {
-      btnN8nEl.textContent = altText;
-      zeigeBericht(validiere());
     }
   }
 
