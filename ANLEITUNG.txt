@@ -14,8 +14,15 @@ radius und den GitHub-Basislink eintragen. Außerdem legst du dort das Schatzbil
 und den Schatztext für die Schatzfreigabe am Ende fest.
 
 Im Tab "Stationen" werden alle Stationen angelegt und bearbeitet. Jede Station
-hat einen Typ (z. B. Rätsel, Codewort, Feuerwehrwissen, Standard). Der Typ
-"Standard" unterstützt Freitext und Multiple Choice als Antwortart.
+hat einen Typ. Verfügbar sind:
+- Standard: Freitext-Aufgabe mit Lösung oder Multiple Choice.
+- Rätsel: Rätseltext mit Lösung.
+- Feuerwehrwissen: Frage mit Freitext-Antwort oder Multiple Choice,
+  optional mit Bonusfrage.
+- Fotoauftrag: Auftragstext; Abschluss per Button oder Bestätigungswort.
+- Kombi: Mehrere Bausteine kombinieren (Aufgabe, Rätsel, Feuerwehrwissen,
+  Fotoauftrag, Hinweis).
+
 Die Stationseinleitung und Bilder sind optional.
 
 Pflichtfelder je Station:
@@ -37,9 +44,14 @@ Im Tab "Karte" werden die Marker für jede Station auf der Karte gesetzt.
 Bei aktivem GPS muss jede Station einen Marker haben, damit der Export
 möglich ist. Bei deaktiviertem GPS sind Marker optional.
 
+Im Tab "Wortdatenbank" können Kategorien und Lösungswörter gepflegt werden.
+Diese Wörter stehen im Tab "Gruppen" als Lösungswort zur Auswahl.
+
 Im Tab "Gruppen" werden die Gruppen angelegt und je Gruppe ein Lösungswort
-vergeben. Die Buchstaben werden automatisch gemischt auf die Stationen verteilt.
-Die Wortlänge muss exakt der Stationsanzahl entsprechen.
+vergeben – frei eingetippt oder aus der Wortdatenbank gewählt. Sobald ein
+gültiges Lösungswort eingetragen oder ausgewählt wird, verteilt das Tool die
+Buchstaben automatisch auf die Stationen. Ist das Lösungswort leer oder passt
+die Länge nicht zur Anzahl der Stationen, wird keine Verteilung erzeugt.
 
 2. PROJEKT SPEICHERN
 --------------------
@@ -60,12 +72,20 @@ Das ZIP enthält die fertige Stationsseite mit verschlüsselten Daten (keine
 Klartextlösungen), QR-Codes für jede Station und Gruppe sowie das Planungstool
 selbst.
 
+Im Tab "Export" stehen außerdem drei Druckvorlagen bereit:
+- QR-Codes drucken: je Station und Gruppe ein QR-Code für den Aushang.
+- Spielleitungsübersicht drucken: interne Übersicht mit allen Lösungen,
+  Stationsdaten und Kontrollfeldern.
+- Laufzettel für Gruppen drucken: je Gruppe ein Laufzettel ohne Lösungen,
+  für die gesammelten Buchstaben unterwegs.
+
 4. AUF GITHUB HOCHLADEN
 -----------------------
-Das ZIP wird entpackt. Der gesamte Inhalt wird über GitHub Desktop in das
-Repository geladen (Commit + Push). GitHub Desktop überträgt dabei die Ordner-
-struktur korrekt. Nach dem Push aktualisiert sich GitHub Pages automatisch
-innerhalb weniger Minuten.
+Das ZIP wird entpackt. Der gesamte Inhalt wird in das GitHub-Repository
+hochgeladen, z. B. über GitHub Desktop oder direkt über GitHub im Browser.
+Wichtig ist, dass die Ordnerstruktur unverändert übernommen wird. Nach dem
+Commit/Upload aktualisiert sich GitHub Pages automatisch innerhalb weniger
+Minuten.
 
 5. BILDER
 ---------
