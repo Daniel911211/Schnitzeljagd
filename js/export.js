@@ -77,11 +77,10 @@ const ExportTool = (() => {
 
     // Stationen
     s.stationen.forEach(st => {
-      if (!st.position) fehler.push(`Station ${st.id}: kein Marker gesetzt.`);
+      if (!st.position && s.projekt.gpsAktiv !== false)
+        fehler.push(`Station ${st.id}: kein Marker gesetzt.`);
       if (!st.name) warn.push(`Station ${st.id}: kein Name.`);
       if (!st.hinweisNaechste) warn.push(`Station ${st.id}: kein Hinweis zur nächsten Station.`);
-      if ((!st.bilder || !st.bilder.length) && !st.externerBildlink)
-        warn.push(`Station ${st.id}: kein Bild.`);
     });
 
     // Gruppen / Lösungswörter / Verteilung
@@ -98,9 +97,6 @@ const ExportTool = (() => {
     s.stationen.forEach(st => (st.bilder || []).forEach(b => bildPfade.push(b)));
     if (bildPfade.length)
       warn.push(`${bildPfade.length} Bildpfad(e) referenziert – Bilddateien müssen manuell in /bilder/ abgelegt werden.`);
-
-    if (!s.projekt.schatzbild)
-      warn.push("Kein Schatzbild gesetzt – schatz.html zeigt nach Erfolg nur den Text.");
 
     if (s.projekt.gpsAktiv === false)
       warn.push("GPS-Prüfung ist deaktiviert – Stationen öffnen ohne Standortprüfung.");

@@ -21,8 +21,9 @@ const Stations = (() => {
 
   /* ---------- Statusbewertung für die Ampel-Punkte ---------- */
   function status(s) {
+    const gpsAktiv = Store.state.projekt.gpsAktiv !== false;
     return {
-      marker: s.position ? "ok" : "off",
+      marker: !gpsAktiv ? "ok" : (s.position ? "ok" : "off"),
       link:   s.githubLink ? "ok" : "off",
       inhalt: s.name && s.aufgabe ? "ok" : (s.name ? "warn" : "off")
     };
