@@ -1,9 +1,9 @@
 {
   "ok": true,
-  "receivedAt": "2026-05-25T12:28:03.126Z",
+  "receivedAt": "2026-05-25T12:39:47.551Z",
   "data": {
     "test": "schnitzeljagd",
-    "gruppe": "1",
-    "station": "1"
+    "gruppe": "2",
+    "station": "5"
   }
 }
