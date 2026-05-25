@@ -171,8 +171,8 @@ main { flex: 1; overflow: hidden; position: relative; }
 }
 .dot { width: 9px; height: 9px; border-radius: 50%; }
 .dot.ok { background: var(--gruen); }
-.dot.warn { background: var(--gelb); }
-.dot.off { background: var(--grau-hell); }
+.dot.warn { background: #d97706; }
+.dot.off { background: #9ca3af; }
 
 .leer-hinweis { padding: 1.5rem 1rem; color: var(--grau); font-size: .88rem; }
 
