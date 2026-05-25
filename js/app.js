@@ -66,6 +66,21 @@ const App = (() => {
     // Titel in der Kopfzeile spiegeln
     document.getElementById("titel-anzeige").textContent =
       p.titel ? "· " + p.titel : "· Neues Projekt";
+
+    const gpsAn = p.gpsAktiv !== false;
+    const card = document.getElementById("card-gps");
+    const box  = document.getElementById("gps-status");
+    if (card && box) {
+      card.classList.toggle("aktiv",   gpsAn);
+      card.classList.toggle("inaktiv", !gpsAn);
+      box.classList.toggle("aktiv",    gpsAn);
+      box.classList.toggle("inaktiv", !gpsAn);
+      box.querySelector(".gps-badge").textContent        = gpsAn ? "GPS aktiv" : "GPS deaktiviert";
+      box.querySelector(".gps-status-titel").textContent = gpsAn ? "Status: GPS aktiv" : "Status: GPS deaktiviert";
+      box.querySelector(".gps-status-info").textContent  = gpsAn
+        ? "Marker und Radius werden für die Standortprüfung benötigt."
+        : "Stationen können ohne Marker exportiert werden. Aufgaben öffnen direkt ohne Standortprüfung.";
+    }
   }
 
   /* ---------- Datei: JSON Import / Export / Reset ---------- */
