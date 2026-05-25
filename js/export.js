@@ -119,14 +119,6 @@ const ExportTool = (() => {
           if (tf.abschlussModus === "bestaetigungswort" && !tf.bestaetigungswort)
             fehler.push(`Station ${st.id}: Bestätigungswort fehlt.`);
           break;
-        case "geschicklichkeit":
-          if (!tf.beschreibung) fehler.push(`Station ${st.id}: Beschreibung fehlt.`);
-          if (tf.abschlussModus === "bestaetigungswort" && !tf.bestaetigungswort)
-            fehler.push(`Station ${st.id}: Bestätigungswort fehlt.`);
-          break;
-        case "codewort":
-          if (!tf.codewort) fehler.push(`Station ${st.id}: Codewort fehlt.`);
-          break;
         case "kombi":
           if (!((tf.bausteine && tf.bausteine.aktiv) || []).length)
             fehler.push(`Station ${st.id}: kein aktiver Kombi-Baustein.`);
@@ -335,10 +327,6 @@ const ExportTool = (() => {
         return res({ anzeigeText: tf.raetseltext || st.aufgabe, modus: "antwort",
           tolerant: tol("toleranzGrossKlein"),
           key: tf.loesung ? norm(tf.loesung, tol("toleranzGrossKlein")) : null });
-      case "codewort":
-        return res({ anzeigeText: st.aufgabe, modus: "antwort",
-          tolerant: tol("toleranzGrossKlein"),
-          key: tf.codewort ? norm(tf.codewort, tol("toleranzGrossKlein")) : null });
       case "feuerwehrwissen":
         if (tf.antwortTyp === "multipleChoice") {
           return res({ anzeigeText: tf.frage, modus: "mc", tolerant: true,
@@ -355,24 +343,6 @@ const ExportTool = (() => {
           ...(tf.abschlussModus === "bestaetigungswort" && tf.bestaetigungswort
             ? { modus: "antwort", tolerant: true, key: norm(tf.bestaetigungswort, true) }
             : { modus: "button" }) });
-      case "geschicklichkeit":
-        return res({ anzeigeText: tf.beschreibung,
-          zusatz: tf.optionaleZeitangabe ? { zeit: tf.optionaleZeitangabe } : null,
-          ...(tf.abschlussModus === "bestaetigungswort" && tf.bestaetigungswort
-            ? { modus: "antwort", tolerant: true, key: norm(tf.bestaetigungswort, true) }
-            : { modus: "button" }) });
-      case "orientierung":
-        return res({
-          anzeigeText: tf.orientierungshinweis,
-          zusatz: {
-            peilung: tf.peilungshinweis || "",
-            zielkoordinaten: tf.zielkoordinaten || ""
-          },
-          ...(tf.loesung
-            ? { modus: "antwort", tolerant: true, key: norm(tf.loesung, true) }
-            : { modus: "button" }) });
-      case "zielstation":
-        return res({ anzeigeText: tf.abschlusstext, modus: "button", tolerant: true });
       case "kombi":
         return kombiSecret(st, tf, res, norm);
       default:
@@ -390,12 +360,10 @@ const ExportTool = (() => {
       if (b === "raetsel" && d.raetseltext) teile.push(d.raetseltext);
       if (b === "feuerwehrwissen" && d.frage) teile.push(d.frage);
       if (b === "fotoauftrag" && d.auftragstext) teile.push(d.auftragstext);
-      if (b === "geschicklichkeit" && d.beschreibung) teile.push(d.beschreibung);
-      if (b === "codewort" && d.codewort) teile.push("Codewort eingeben.");
       if (b === "hinweis" && d.text) teile.push(d.text);
       // erstes prüfbares Geheimnis bestimmt die Prüfung
       if (key === null) {
-        const sec = d.loesung || (b === "codewort" && d.codewort)
+        const sec = d.loesung
           || (b === "feuerwehrwissen" && d.antwortText)
           || d.bestaetigungswort;
         if (sec) { key = norm(sec, true); modus = "antwort"; }
@@ -467,8 +435,15 @@ const ExportTool = (() => {
       "und den Schatztext für die Schatzfreigabe am Ende fest.",
       "",
       "Im Tab \"Stationen\" werden alle Stationen angelegt und bearbeitet. Jede Station",
-      "hat einen Typ (z. B. Rätsel, Codewort, Feuerwehrwissen, Standard). Der Typ",
-      "\"Standard\" unterstützt Freitext und Multiple Choice als Antwortart.",
+      "hat einen Typ. Verfügbar sind:",
+      "- Standard: Freitext-Aufgabe mit Lösung oder Multiple Choice.",
+      "- Rätsel: Rätseltext mit Lösung.",
+      "- Feuerwehrwissen: Frage mit Freitext-Antwort oder Multiple Choice,",
+      "  optional mit Bonusfrage.",
+      "- Fotoauftrag: Auftragstext; Abschluss per Button oder Bestätigungswort.",
+      "- Kombi: Mehrere Bausteine kombinieren (Aufgabe, Rätsel, Feuerwehrwissen,",
+      "  Fotoauftrag, Hinweis).",
+      "",
       "Die Stationseinleitung und Bilder sind optional.",
       "",
       "Pflichtfelder je Station:",
@@ -490,9 +465,14 @@ const ExportTool = (() => {
       "Bei aktivem GPS muss jede Station einen Marker haben, damit der Export",
       "möglich ist. Bei deaktiviertem GPS sind Marker optional.",
       "",
+      "Im Tab \"Wortdatenbank\" können Kategorien und Lösungswörter gepflegt werden.",
+      "Diese Wörter stehen im Tab \"Gruppen\" als Lösungswort zur Auswahl.",
+      "",
       "Im Tab \"Gruppen\" werden die Gruppen angelegt und je Gruppe ein Lösungswort",
-      "vergeben. Die Buchstaben werden automatisch gemischt auf die Stationen verteilt.",
-      "Die Wortlänge muss exakt der Stationsanzahl entsprechen.",
+      "vergeben – frei eingetippt oder aus der Wortdatenbank gewählt. Sobald ein",
+      "gültiges Lösungswort eingetragen oder ausgewählt wird, verteilt das Tool die",
+      "Buchstaben automatisch auf die Stationen. Ist das Lösungswort leer oder passt",
+      "die Länge nicht zur Anzahl der Stationen, wird keine Verteilung erzeugt.",
       "",
       "2. PROJEKT SPEICHERN",
       "--------------------",
@@ -512,6 +492,13 @@ const ExportTool = (() => {
       "Das ZIP enthält die fertige Stationsseite mit verschlüsselten Daten (keine",
       "Klartextlösungen), QR-Codes für jede Station und Gruppe sowie das Planungstool",
       "selbst.",
+      "",
+      "Im Tab \"Export\" stehen außerdem drei Druckvorlagen bereit:",
+      "- QR-Codes drucken: je Station und Gruppe ein QR-Code für den Aushang.",
+      "- Spielleitungsübersicht drucken: interne Übersicht mit allen Lösungen,",
+      "  Stationsdaten und Kontrollfeldern.",
+      "- Laufzettel für Gruppen drucken: je Gruppe ein Laufzettel ohne Lösungen,",
+      "  für die gesammelten Buchstaben unterwegs.",
       "",
       "4. AUF GITHUB HOCHLADEN",
       "-----------------------",

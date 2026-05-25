@@ -73,13 +73,6 @@ const Stations = (() => {
         if (!tf.auftragstext) return "warn";
         if (tf.abschlussModus === "bestaetigungswort" && !tf.bestaetigungswort) return "warn";
         break;
-      case "geschicklichkeit":
-        if (!tf.beschreibung) return "warn";
-        if (tf.abschlussModus === "bestaetigungswort" && !tf.bestaetigungswort) return "warn";
-        break;
-      case "codewort":
-        if (!tf.codewort) return "warn";
-        break;
       case "kombi":
         if (!((tf.bausteine && tf.bausteine.aktiv) || []).length) return "warn";
         break;
@@ -282,8 +275,7 @@ const Stations = (() => {
   function labelBaustein(b) {
     const m = {
       aufgabe: "Aufgabe", raetsel: "Rätsel", feuerwehrwissen: "Feuerwehrwissen",
-      fotoauftrag: "Fotoauftrag", geschicklichkeit: "Geschicklichkeit",
-      codewort: "Codewort", hinweis: "Hinweis"
+      fotoauftrag: "Fotoauftrag", hinweis: "Hinweis"
     };
     return m[b] || b;
   }
@@ -303,11 +295,6 @@ const Stations = (() => {
       case "fotoauftrag": return [
         { key: "auftragstext", type: "textarea", label: "Auftragstext" },
         { key: "bestaetigungswort", type: "text", label: "Bestätigungswort (optional)" }];
-      case "geschicklichkeit": return [
-        { key: "beschreibung", type: "textarea", label: "Beschreibung" },
-        { key: "bestaetigungswort", type: "text", label: "Bestätigungswort (optional)" }];
-      case "codewort": return [
-        { key: "codewort", type: "text", label: "Codewort" }];
       case "hinweis": return [
         { key: "text", type: "textarea", label: "Hinweistext" }];
       default: return [];

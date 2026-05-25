@@ -199,22 +199,16 @@ const PrintTool = (function () {
     switch (st.typ) {
       case "standard":     return tf.loesung || "—";
       case "raetsel":      return tf.loesung || "—";
-      case "orientierung": return tf.loesung || "(Orientierung)";
-      case "codewort":     return tf.codewort || "—";
-      case "zielstation":  return "(Zielstation)";
       case "feuerwehrwissen":
         if (tf.antwortTyp === "multipleChoice") return tf.richtigeAntwort || "—";
         return tf.antwortText || "—";
       case "fotoauftrag":
-        return tf.abschlussModus === "bestaetigungswort" ? (tf.bestaetigungswort || "(Bestätigungswort)") : "(Abschluss-Button)";
-      case "geschicklichkeit":
         return tf.abschlussModus === "bestaetigungswort" ? (tf.bestaetigungswort || "(Bestätigungswort)") : "(Abschluss-Button)";
       case "kombi": {
         const aktiv = (tf.bausteine && tf.bausteine.aktiv) || [];
         for (const b of aktiv) {
           const bf = tf[b] || {};
           if (bf.loesung) return bf.loesung;
-          if (bf.codewort) return bf.codewort;
           if (bf.antwortText) return bf.antwortText;
           if (bf.richtigeAntwort) return bf.richtigeAntwort;
         }

@@ -12,7 +12,7 @@ const STORAGE_KEY = "schnitzeljagd_autosave_v1";
 // Bausteine, die der Typ "kombi" aktivieren kann
 const KOMBI_BAUSTEINE = [
   "aufgabe", "raetsel", "feuerwehrwissen",
-  "fotoauftrag", "geschicklichkeit", "codewort", "hinweis"
+  "fotoauftrag", "hinweis"
 ];
 
 // Definition der Typ-spezifischen Felder.
@@ -77,43 +77,6 @@ const STATION_TYPES = {
         ], default: "button" },
       { key: "bestaetigungswort", type: "text", label: "Bestätigungswort",
         showIf: { field: "abschlussModus", value: "bestaetigungswort" } }
-    ]
-  },
-  geschicklichkeit: {
-    label: "Geschicklichkeit",
-    felder: [
-      { key: "beschreibung", type: "textarea", label: "Beschreibung" },
-      { key: "abschlussModus", type: "select", label: "Abschluss",
-        options: [
-          { value: "button", label: "Abschluss-Button" },
-          { value: "bestaetigungswort", label: "Bestätigungswort" }
-        ], default: "button" },
-      { key: "bestaetigungswort", type: "text", label: "Bestätigungswort",
-        showIf: { field: "abschlussModus", value: "bestaetigungswort" } },
-      { key: "optionaleZeitangabe", type: "text", label: "Zeitangabe (optional)" }
-    ]
-  },
-  orientierung: {
-    label: "Orientierung",
-    felder: [
-      { key: "orientierungshinweis", type: "textarea", label: "Orientierungshinweis" },
-      { key: "peilungshinweis", type: "text", label: "Peilungshinweis (optional)" },
-      { key: "zielkoordinaten", type: "text", label: "Zielkoordinaten (optional)" },
-      { key: "loesung", type: "text", label: "Lösung (optional)" }
-    ]
-  },
-  codewort: {
-    label: "Codewort",
-    felder: [
-      { key: "codewort", type: "text", label: "Codewort" },
-      { key: "toleranzGrossKlein", type: "checkbox", label: "Groß/Klein ignorieren", default: true }
-    ]
-  },
-  zielstation: {
-    label: "Zielstation",
-    felder: [
-      { key: "abschlusstext", type: "textarea", label: "Abschlusstext" }
-      // Lösungswort-Prüfung + Buchstabenanzeige übernimmt station.html fest.
     ]
   },
   kombi: {
@@ -290,6 +253,19 @@ function migriere(data) {
     githubLink: `station.html?station=${s.id}`,
     typFelder: {}
   }, s));
+
+  // Unbekannte/entfernte Stationstypen auf "standard" zurückfallen lassen
+  base.stationen = base.stationen.map(s =>
+    STATION_TYPES[s.typ] ? s : Object.assign({}, s, { typ: "standard", typFelder: {} }));
+
+  // Aus Kombi-Stationen entfernte Bausteine ausblenden
+  base.stationen.forEach(s => {
+    if (s.typ === "kombi" && s.typFelder && s.typFelder.bausteine) {
+      const aktiv = (s.typFelder.bausteine.aktiv || [])
+        .filter(b => KOMBI_BAUSTEINE.includes(b));
+      s.typFelder.bausteine.aktiv = aktiv;
+    }
+  });
 
   return base;
 }
