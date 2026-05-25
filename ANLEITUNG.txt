@@ -1,27 +1,121 @@
-SCHNITZELJAGD – EXPORT
-================================
+SCHNITZELJAGD – BEDIENUNGSANLEITUNG
+====================================
 
-Dieser Ordner enthält BEIDES:
-  A) die Teilnehmer-Site (station.html, schatz.html, qr/, daten/)
-  B) das Planungstool (index.html) zum Online-Bearbeiten
+Diese Anleitung beschreibt den Ablauf für die Planung und Veröffentlichung
+einer Schnitzeljagd mit dem webbasierten Planungstool.
 
-TEILNEHMER
+1. PLANUNG
 ----------
-1. Diesen Ordnerinhalt ins GitHub-Pages-Repository legen.
-2. Bilder gemäß bilder/README.txt in /bilder/ ablegen.
-3. Veröffentlichen. Aufruf einer Station z. B.:
+Das Planungstool ist unter folgender Adresse erreichbar:
+https://daniel911211.github.io/Schnitzeljagd/
+
+Dort kannst du im Tab "Allgemein" den Titel, die Beschreibung, den Standard-
+radius und den GitHub-Basislink eintragen. Außerdem legst du dort das Schatzbild
+und den Schatztext für die Schatzfreigabe am Ende fest.
+
+Im Tab "Stationen" werden alle Stationen angelegt und bearbeitet. Jede Station
+hat einen Typ (z. B. Rätsel, Codewort, Feuerwehrwissen, Standard). Der Typ
+"Standard" unterstützt Freitext und Multiple Choice als Antwortart.
+Die Stationseinleitung und Bilder sind optional.
+
+Pflichtfelder je Station:
+- Stationsname
+- Nächster Ort (für Spielleitung)
+- Hinweis zur nächsten Station
+- Typ-spezifische Felder (z. B. Aufgabe + Lösung, Frage + Antwort)
+
+Die drei Ampel-Punkte in der Stationsliste zeigen:
+1. Marker – Position gesetzt (bei GPS aktiv: Pflicht, bei GPS deaktiviert: optional)
+2. Link  – Stationslink vorhanden
+3. Inhalt – Pflichtfelder vollständig ausgefüllt
+
+GPS-Prüfung: Im Tab "Allgemein" kann die GPS-Prüfung deaktiviert werden,
+z. B. wenn die Veranstaltung nur im Gebäude stattfindet. Bei deaktiviertem
+GPS öffnet station.html die Aufgabe sofort ohne Standortprüfung.
+
+Im Tab "Karte" werden die Marker für jede Station auf der Karte gesetzt.
+Bei aktivem GPS muss jede Station einen Marker haben, damit der Export
+möglich ist. Bei deaktiviertem GPS sind Marker optional.
+
+Im Tab "Gruppen" werden die Gruppen angelegt und je Gruppe ein Lösungswort
+vergeben. Die Buchstaben werden automatisch gemischt auf die Stationen verteilt.
+Die Wortlänge muss exakt der Stationsanzahl entsprechen.
+
+2. PROJEKT SPEICHERN
+--------------------
+Das bearbeitbare Projekt wird über den Knopf "JSON speichern" als Datei auf
+dem Gerät gespeichert. Diese Datei enthält alle Klartextlösungen und sollte
+NICHT öffentlich ins GitHub-Repository geladen werden. Sie dient ausschließlich
+zur lokalen Sicherung und kann jederzeit über "JSON laden" wieder eingelesen
+werden.
+
+3. EXPORT
+---------
+Wenn die Planung abgeschlossen ist, den Tab "Export" öffnen. Das System prüft
+automatisch und zeigt blockierende Fehler und Hinweise an. Sind alle
+Pflichtfelder korrekt ausgefüllt, kann über "ZIP erzeugen" das Exportpaket
+heruntergeladen werden.
+
+Das ZIP enthält die fertige Stationsseite mit verschlüsselten Daten (keine
+Klartextlösungen), QR-Codes für jede Station und Gruppe sowie das Planungstool
+selbst.
+
+4. AUF GITHUB HOCHLADEN
+-----------------------
+Das ZIP wird entpackt. Der gesamte Inhalt wird über GitHub Desktop in das
+Repository geladen (Commit + Push). GitHub Desktop überträgt dabei die Ordner-
+struktur korrekt. Nach dem Push aktualisiert sich GitHub Pages automatisch
+innerhalb weniger Minuten.
+
+5. BILDER
+---------
+Bilder müssen manuell in den Ordner /bilder/ abgelegt werden. Die erwarteten
+Pfade sind in der Datei bilder/README.txt aufgelistet. Bilder sind optional –
+Stationen ohne Bild funktionieren vollständig.
+
+6. TEILNEHMER-SEITEN
+--------------------
+Die Teilnehmer rufen ihre Station über folgenden Link auf (QR-Code):
+https://daniel911211.github.io/Schnitzeljagd/station.html?station=01&gruppe=G1
+
+Die Schatzfreigabe am Ende der Veranstaltung erfolgt über:
+https://daniel911211.github.io/Schnitzeljagd/schatz.html
+
+7. GPS-TEST AM PC
+-----------------
+Die GPS-/Radiusprüfung sollte vor der Veranstaltung getestet werden.
+Am PC kann dafür in Chrome oder Microsoft Edge ein Standort simuliert werden:
+
+1. Stationslink im Browser öffnen, z. B.:
    https://daniel911211.github.io/Schnitzeljagd/station.html?station=01&gruppe=G1
-   Schatzseite: https://daniel911211.github.io/Schnitzeljagd/schatz.html
-   QR-Codes liegen unter /qr/ (je Station und Gruppe).
 
-PLANUNG (online)
-----------------
-Planungstool öffnen: https://daniel911211.github.io/Schnitzeljagd/
-Projekt laden/speichern über die Schaltflächen oben (JSON-Datei vom Gerät).
+2. Entwicklertools öffnen: Taste F12 drücken.
 
-WICHTIG ZUR SICHERHEIT
-----------------------
-- daten/data.json (Teilnehmer) enthält KEINE Klartextlösungen (nur Hashes).
-- Das bearbeitbare Projekt-JSON (mit Klartextlösungen) NICHT öffentlich ins
-  Repository legen – sonst sind die Lösungen sichtbar. Lokal aufbewahren und
-  bei Bedarf über 'JSON laden' einlesen.
+3. In den Entwicklertools oben rechts auf die drei Punkte klicken.
+
+4. "Weitere Tools" / "More tools" auswählen.
+
+5. "Sensoren" / "Sensors" öffnen.
+
+6. Im Bereich "Standort" / "Location" einen benutzerdefinierten Standort auswählen.
+
+7. Breitengrad und Längengrad der Station eintragen.
+
+8. Die Stationsseite neu laden.
+
+Danach verwendet der Browser die eingetragenen Koordinaten für die Standortprüfung.
+Wichtig: Die Entwicklertools müssen während des Tests geöffnet bleiben.
+
+Koordinaten einer Station herausfinden:
+- Google Maps öffnen
+- gewünschten Punkt auf der Karte anklicken
+- Koordinaten werden angezeigt
+- erste Zahl = Breitengrad, zweite Zahl = Längengrad
+
+Beispiel: 50.45321, 9.61789
+  Breitengrad = 50.45321
+  Längengrad  = 9.61789
+
+Hinweis: Der GPS-Test am PC ersetzt keinen echten Praxistest mit dem Handy.
+Vor der Veranstaltung sollte mindestens einmal mit einem Handy direkt an den
+Stationen getestet werden.

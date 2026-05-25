@@ -76,7 +76,7 @@ HYDRANT`;
         </div>
         <div class="editor-foot" style="margin-top:0">
           <button class="btn btn-primary btn-sm" id="btn-wdb-import">Importieren</button>
-          <button class="btn btn-light btn-sm" id="btn-wdb-importfile">Datei wählen</button>
+          <button class="btn btn-info btn-sm" id="btn-wdb-importfile">Datei wählen</button>
           <input type="file" id="wdb-file" accept=".txt" hidden>
         </div>
         <div id="wdb-summary" class="import-summary"></div>

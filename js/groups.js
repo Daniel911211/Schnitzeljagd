@@ -81,6 +81,14 @@ const Groups = (() => {
     const pruef = Solution.pruefeWortlaenge(grp.loesungswort, anzahl);
     const dbWords = wortdbWoerter();
 
+    const wortVorhanden = !!(grp.loesungswort && grp.loesungswort.length);
+    const hinweisText = !wortVorhanden
+      ? "Kein Lösungswort – keine Verteilung möglich."
+      : pruef.ok
+        ? `Länge ${grp.loesungswort.length} = ${anzahl} Stationen ✓ — automatisch verteilt.`
+        : "Keine Verteilung möglich – Lösungswort und Anzahl der Stationen passen nicht zusammen.";
+    const hinweisKlasse = !wortVorhanden || !pruef.ok ? "warn-text" : "";
+
     editorEl.innerHTML = `
       <div class="card">
         <h3>Gruppe ${id}</h3>
@@ -88,11 +96,7 @@ const Groups = (() => {
           <label>Lösungswort</label>
           <input type="text" id="g-wort" value="${esc(grp.loesungswort)}"
             placeholder="z. B. RETTER" style="text-transform:uppercase">
-          <div class="hinweis ${pruef.ok ? "" : "warn-text"}">
-            ${pruef.ok
-              ? `Länge ${grp.loesungswort.length} = ${anzahl} Stationen ✓`
-              : "⚠ " + pruef.grund + " — keine Verteilung möglich."}
-          </div>
+          <div class="hinweis ${hinweisKlasse}">${hinweisText}</div>
         </div>
         ${dbWords.length ? `
         <div class="feld">
@@ -103,18 +107,12 @@ const Groups = (() => {
           </select>
         </div>` : `<div class="hinweis">Wortdatenbank ist leer — Wort manuell eingeben.</div>`}
         <div class="editor-foot" style="margin-top:.5rem">
-          <button class="btn btn-light btn-sm" id="btn-del-gruppe">Gruppe löschen</button>
+          <button class="btn btn-danger btn-sm" id="btn-del-gruppe">Gruppe löschen</button>
         </div>
       </div>
 
       <div class="card">
         <h3>Buchstabenverteilung</h3>
-        <div class="editor-foot" style="margin-bottom:1rem;margin-top:0">
-          <button class="btn btn-primary btn-sm" id="btn-verteile" ${pruef.ok ? "" : "disabled"}>
-            Automatisch mischen</button>
-          <button class="btn btn-light btn-sm" id="btn-clear">Verteilung leeren</button>
-          <span class="hinweis" style="margin-left:auto">Manuell überschreibbar</span>
-        </div>
         ${anzahl ? renderTabelle(grp, stationen) : `<div class="leer-hinweis">Keine Stationen vorhanden.</div>`}
       </div>
     `;
@@ -129,9 +127,7 @@ const Groups = (() => {
       return `<tr>
         <td class="t-nr">${sid}</td>
         <td class="t-name">${st && st.name ? esc(st.name) : "<em>—</em>"}</td>
-        <td class="t-letter">
-          <input type="text" maxlength="1" data-letter="${sid}" value="${esc(letter)}"
-            style="text-transform:uppercase"></td>
+        <td class="t-letter">${letter ? esc(letter) : "—"}</td>
       </tr>`;
     }).join("");
     return `<table class="verteil-tab">
@@ -139,11 +135,25 @@ const Groups = (() => {
       <tbody>${rows}</tbody></table>`;
   }
 
+  function applyAutoVerteilung(grp, id, stationen) {
+    const wort = (grp.loesungswort || "").trim().toUpperCase();
+    const pruef = Solution.pruefeWortlaenge(wort, stationen.length);
+    if (!wort || !pruef.ok) {
+      grp.buchstaben = {};
+      return;
+    }
+    const andere = Object.entries(Store.state.gruppen)
+      .filter(([gid]) => gid !== id)
+      .map(([, g]) => g.buchstaben || {});
+    grp.buchstaben = Solution.verteile(wort, stationen, andere);
+  }
+
   /* ---------- Bindings ---------- */
   function bind(id, grp, stationen) {
     const wortEl = document.getElementById("g-wort");
     wortEl.addEventListener("change", () => {
       grp.loesungswort = wortEl.value.trim().toUpperCase();
+      applyAutoVerteilung(grp, id, stationen);
       Store.commit();
       renderEditor();
     });
@@ -152,6 +162,7 @@ const Groups = (() => {
     if (dbEl) dbEl.addEventListener("change", () => {
       if (!dbEl.value) return;
       grp.loesungswort = dbEl.value.trim().toUpperCase();
+      applyAutoVerteilung(grp, id, stationen);
       Store.commit();
       renderEditor();
     });
@@ -164,32 +175,6 @@ const Groups = (() => {
         renderEditor();
       }
     });
-
-    const vBtn = document.getElementById("btn-verteile");
-    if (vBtn && !vBtn.disabled) vBtn.addEventListener("click", () => {
-      const andere = Object.entries(Store.state.gruppen)
-        .filter(([gid]) => gid !== id)
-        .map(([, g]) => g.buchstaben || {});
-      grp.buchstaben = Solution.verteile(grp.loesungswort, stationen, andere);
-      Store.commit();
-      renderEditor();
-    });
-
-    document.getElementById("btn-clear").addEventListener("click", () => {
-      grp.buchstaben = {};
-      Store.commit();
-      renderEditor();
-    });
-
-    editorEl.querySelectorAll("[data-letter]").forEach(inp =>
-      inp.addEventListener("change", () => {
-        if (!grp.buchstaben) grp.buchstaben = {};
-        const v = inp.value.trim().toUpperCase();
-        if (v) grp.buchstaben[inp.dataset.letter] = v;
-        else delete grp.buchstaben[inp.dataset.letter];
-        Store.commit();
-        renderListe();
-      }));
   }
 
   /* ---------- Wortdatenbank-Wörter flach auflisten ---------- */

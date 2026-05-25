@@ -44,25 +44,34 @@
             <label>Beschreibung</label>
             <textarea id="p-beschreibung" placeholder="Kurzbeschreibung der Schnitzeljagd"></textarea>
           </div>
-          <div class="row">
-            <div class="feld">
-              <label>Standardradius (m)</label>
-              <input type="number" id="p-standardRadius" min="1" value="30">
-              <div class="hinweis">Vorbelegung neuer Stationen.</div>
-            </div>
-            <div class="feld">
-              <label>GitHub-Basislink</label>
-              <input type="url" id="p-githubBasislink"
-                placeholder="https://BENUTZER.github.io/PROJEKT/">
-              <div class="hinweis">Basis für Stationslinks, QR-Codes und Bilder.</div>
-            </div>
+          <div class="feld">
+            <label>GitHub-Basislink</label>
+            <input type="url" id="p-githubBasislink"
+              placeholder="https://BENUTZER.github.io/PROJEKT/">
+            <div class="hinweis">Basis für Stationslinks, QR-Codes und Bilder.</div>
           </div>
+        </div>
+
+        <div class="card card-gps" id="card-gps">
+          <h3>📍 Standortprüfung / GPS</h3>
           <div class="feld">
             <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
-              <input type="checkbox" id="p-gpsAktiv" style="width:1.1rem;height:1.1rem;accent-color:var(--rot)">
+              <input type="checkbox" id="p-gpsAktiv" style="width:1.1rem;height:1.1rem">
               GPS-Prüfung an Stationen aktiv
             </label>
             <div class="hinweis">Deaktivieren, wenn die Veranstaltung z. B. nur im Feuerwehrhaus stattfindet – Teilnehmer sehen dann die Aufgabe ohne Standortprüfung.</div>
+          </div>
+          <div class="feld">
+            <label>Standardradius (m)</label>
+            <input type="number" id="p-standardRadius" min="1" value="30" style="max-width:160px">
+            <div class="hinweis">Vorbelegung neuer Stationen.</div>
+          </div>
+          <div class="gps-status" id="gps-status">
+            <span class="gps-badge"></span>
+            <div class="gps-status-text">
+              <strong class="gps-status-titel"></strong>
+              <div class="gps-status-info"></div>
+            </div>
           </div>
         </div>
 
@@ -90,7 +99,7 @@
             <h2>Stationen</h2>
             <div style="display:flex;gap:.4rem">
               <button class="btn btn-primary btn-sm" id="btn-station-add">+ Station</button>
-              <button class="btn btn-light btn-sm" id="btn-ampel-hilfe" title="Ampel-Legende">? Ampel</button>
+              <button class="btn btn-info btn-sm" id="btn-ampel-hilfe" title="Ampel-Legende">?</button>
             </div>
           </div>
           <div id="station-liste"></div>
@@ -123,10 +132,12 @@
             <li>Hinweis zur nächsten Station</li>
             <li>Pflichtfelder des gewählten Stationstyps (z. B. Aufgabe, Lösung, Frage)</li>
           </ul>
-          <p><strong>Statusfarben:</strong><br>
-            🟢 Grün – vollständig &nbsp;
-            🟡 Gelb – teilweise unvollständig &nbsp;
-            ⚫ Grau – fehlt / nicht begonnen</p>
+          <p><strong>Statusfarben:</strong></p>
+          <div class="legende-dot-row">
+            <span class="legende-dot-item"><span class="dot ok"></span> Grün – vollständig</span>
+            <span class="legende-dot-item"><span class="dot warn"></span> Gelb – teilweise unvollständig</span>
+            <span class="legende-dot-item"><span class="dot off"></span> Grau – fehlt / nicht begonnen</span>
+          </div>
           <p style="color:#6b7280;font-size:.85rem">Stationseinleitung und Bilder sind optional und beeinflussen die Ampel nicht.</p>
         </div>
       </div>
@@ -138,7 +149,7 @@
         <div class="links">
           <div class="liste-kopf">
             <h2>Stationen</h2>
-            <button class="btn btn-light btn-sm" id="btn-karte-fit">Ansicht</button>
+            <button class="btn btn-info btn-sm" id="btn-karte-fit">Ansicht</button>
           </div>
           <div id="karte-liste"></div>
         </div>
@@ -173,8 +184,8 @@
           <div class="liste-kopf">
             <h2>Kategorien</h2>
             <div style="display:flex;gap:.4rem">
-              <button class="btn btn-light btn-sm" id="btn-wdb-hilfe">?</button>
               <button class="btn btn-primary btn-sm" id="btn-wdb-add-kat">+ Kategorie</button>
+              <button class="btn btn-info btn-sm" id="btn-wdb-hilfe">?</button>
             </div>
           </div>
           <div id="wdb-katliste"></div>
@@ -189,11 +200,11 @@
         <div class="card">
           <h3>Drucken</h3>
           <p style="font-size:.9rem;color:#374151;margin-bottom:1rem">
-            Druckvorbereitungen für die Veranstaltung – direkt aus dem Browser, kein PDF-Tool nötig.</p>
+            Druckvorlagen für QR-Codes, Spielleitungsübersicht und Gruppen-Laufzettel.</p>
           <div style="display:flex;flex-wrap:wrap;gap:.6rem">
-            <button class="btn btn-light" id="btn-druck-qr">QR-Codes drucken</button>
-            <button class="btn btn-light" id="btn-druck-leitung">Spielleitungsübersicht drucken</button>
-            <button class="btn btn-light" id="btn-druck-laufzettel">Laufzettel für Gruppen drucken</button>
+            <button class="btn btn-print" id="btn-druck-qr">QR-Codes drucken</button>
+            <button class="btn btn-print" id="btn-druck-leitung">Spielleitungsübersicht drucken</button>
+            <button class="btn btn-print" id="btn-druck-laufzettel">Laufzettel für Gruppen drucken</button>
           </div>
         </div>
         <div class="card">
