@@ -172,7 +172,24 @@ main { flex: 1; overflow: hidden; position: relative; }
 .dot { width: 9px; height: 9px; border-radius: 50%; }
 .dot.ok { background: var(--gruen); }
 .dot.warn { background: #d97706; }
-.dot.off { background: #9ca3af; }
+.dot.off { background: #6b7280; }
+
+.legende-dot-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .9rem;
+  align-items: center;
+  margin-top: .35rem;
+}
+.legende-dot-item {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+}
+.legende-dot-item .dot {
+  width: 10px;
+  height: 10px;
+}
 
 .leer-hinweis { padding: 1.5rem 1rem; color: var(--grau); font-size: .88rem; }
 
