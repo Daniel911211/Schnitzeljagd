@@ -79,8 +79,59 @@ const ExportTool = (() => {
     s.stationen.forEach(st => {
       if (!st.position && s.projekt.gpsAktiv !== false)
         fehler.push(`Station ${st.id}: kein Marker gesetzt.`);
-      if (!st.name) warn.push(`Station ${st.id}: kein Name.`);
-      if (!st.hinweisNaechste) warn.push(`Station ${st.id}: kein Hinweis zur nächsten Station.`);
+      if (!st.name)
+        fehler.push(`Station ${st.id}: kein Name.`);
+      if (!st.hinweisKurz)
+        warn.push(`Station ${st.id}: Nächster Ort fehlt.`);
+      if (!st.hinweisNaechste)
+        warn.push(`Station ${st.id}: Hinweis zur nächsten Station fehlt.`);
+      // Typ-Pflichtfelder
+      const tf = st.typFelder || {};
+      switch (st.typ) {
+        case "standard":
+          if (!tf.aufgabe) { warn.push(`Station ${st.id}: Aufgabe fehlt.`); break; }
+          if (tf.antwortTyp === "multipleChoice") {
+            if ((tf.antwortoptionen || []).filter(Boolean).length < 2)
+              warn.push(`Station ${st.id}: mindestens 2 Antwortoptionen benötigt.`);
+            if (!tf.richtigeAntwort)
+              warn.push(`Station ${st.id}: Richtige Option fehlt.`);
+          } else if (!tf.loesung) {
+            warn.push(`Station ${st.id}: Lösung fehlt.`);
+          }
+          break;
+        case "raetsel":
+          if (!tf.raetseltext) warn.push(`Station ${st.id}: Rätseltext fehlt.`);
+          if (!tf.loesung)    warn.push(`Station ${st.id}: Lösung fehlt.`);
+          break;
+        case "feuerwehrwissen":
+          if (!tf.frage) { warn.push(`Station ${st.id}: Frage fehlt.`); break; }
+          if (tf.antwortTyp === "multipleChoice") {
+            if ((tf.antwortoptionen || []).filter(Boolean).length < 2)
+              warn.push(`Station ${st.id}: mindestens 2 Antwortoptionen benötigt.`);
+            if (!tf.richtigeAntwort)
+              warn.push(`Station ${st.id}: Richtige Option fehlt.`);
+          } else if (!tf.antwortText) {
+            warn.push(`Station ${st.id}: Erwartete Antwort fehlt.`);
+          }
+          break;
+        case "fotoauftrag":
+          if (!tf.auftragstext) warn.push(`Station ${st.id}: Auftragstext fehlt.`);
+          if (tf.abschlussModus === "bestaetigungswort" && !tf.bestaetigungswort)
+            warn.push(`Station ${st.id}: Bestätigungswort fehlt.`);
+          break;
+        case "geschicklichkeit":
+          if (!tf.beschreibung) warn.push(`Station ${st.id}: Beschreibung fehlt.`);
+          if (tf.abschlussModus === "bestaetigungswort" && !tf.bestaetigungswort)
+            warn.push(`Station ${st.id}: Bestätigungswort fehlt.`);
+          break;
+        case "codewort":
+          if (!tf.codewort) warn.push(`Station ${st.id}: Codewort fehlt.`);
+          break;
+        case "kombi":
+          if (!((tf.bausteine && tf.bausteine.aktiv) || []).length)
+            warn.push(`Station ${st.id}: kein aktiver Kombi-Baustein.`);
+          break;
+      }
     });
 
     // Gruppen / Lösungswörter / Verteilung
@@ -272,6 +323,11 @@ const ExportTool = (() => {
 
     switch (st.typ) {
       case "standard":
+        if (tf.antwortTyp === "multipleChoice") {
+          return res({ anzeigeText: tf.aufgabe || st.aufgabe, modus: "mc", tolerant: true,
+            optionen: (tf.antwortoptionen || []).filter(Boolean),
+            key: tf.richtigeAntwort ? norm(tf.richtigeAntwort, true) : null });
+        }
         return res({ anzeigeText: tf.aufgabe || st.aufgabe, modus: "antwort",
           tolerant: tol("toleranzGrossKlein"),
           key: tf.loesung ? norm(tf.loesung, tol("toleranzGrossKlein")) : null });

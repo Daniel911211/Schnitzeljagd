@@ -25,8 +25,52 @@ const Stations = (() => {
     return {
       marker: !gpsAktiv ? "ok" : (s.position ? "ok" : "off"),
       link:   s.githubLink ? "ok" : "off",
-      inhalt: s.name && s.aufgabe ? "ok" : (s.name ? "warn" : "off")
+      inhalt: pruefeInhalt(s)
     };
+  }
+
+  function pruefeInhalt(s) {
+    if (!s.name) return "off";
+    const tf = s.typFelder || {};
+    // Grundpflichtfelder
+    if (!s.hinweisNaechste || !s.hinweisKurz) return "warn";
+    // Typ-Pflichtfelder
+    switch (s.typ) {
+      case "standard":
+        if (!tf.aufgabe) return "warn";
+        if (tf.antwortTyp === "multipleChoice") {
+          if ((tf.antwortoptionen || []).filter(Boolean).length < 2 || !tf.richtigeAntwort) return "warn";
+        } else {
+          if (!tf.loesung) return "warn";
+        }
+        break;
+      case "raetsel":
+        if (!tf.raetseltext || !tf.loesung) return "warn";
+        break;
+      case "feuerwehrwissen":
+        if (!tf.frage) return "warn";
+        if (tf.antwortTyp === "multipleChoice") {
+          if ((tf.antwortoptionen || []).filter(Boolean).length < 2 || !tf.richtigeAntwort) return "warn";
+        } else {
+          if (!tf.antwortText) return "warn";
+        }
+        break;
+      case "fotoauftrag":
+        if (!tf.auftragstext) return "warn";
+        if (tf.abschlussModus === "bestaetigungswort" && !tf.bestaetigungswort) return "warn";
+        break;
+      case "geschicklichkeit":
+        if (!tf.beschreibung) return "warn";
+        if (tf.abschlussModus === "bestaetigungswort" && !tf.bestaetigungswort) return "warn";
+        break;
+      case "codewort":
+        if (!tf.codewort) return "warn";
+        break;
+      case "kombi":
+        if (!((tf.bausteine && tf.bausteine.aktiv) || []).length) return "warn";
+        break;
+    }
+    return "ok";
   }
 
   /* ---------- Liste ---------- */
@@ -111,10 +155,9 @@ const Stations = (() => {
           <textarea id="f-hinweis">${esc(s.hinweisNaechste)}</textarea>
         </div>
         <div class="feld">
-          <label>Nächster Ort / Kurzinfo für Spielleitung (optional)</label>
+          <label>Nächster Ort</label>
           <input type="text" id="f-hinweis-kurz" value="${esc(s.hinweisKurz)}"
             placeholder="z. B. Post, Rathaus, Sportplatz, Feuerwehrhaus">
-          <div class="hinweis">Nur für Spielleitungsübersicht – wird Teilnehmern nicht angezeigt.</div>
         </div>
       </div>
 

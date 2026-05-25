@@ -24,8 +24,19 @@ const STATION_TYPES = {
     label: "Standard",
     felder: [
       { key: "aufgabe", type: "textarea", label: "Aufgabe" },
-      { key: "loesung", type: "text", label: "Lösung" },
-      { key: "toleranzGrossKlein", type: "checkbox", label: "Groß/Klein ignorieren", default: true }
+      { key: "antwortTyp", type: "select", label: "Antworttyp",
+        options: [
+          { value: "freitext", label: "Freitext" },
+          { value: "multipleChoice", label: "Multiple Choice" }
+        ], default: "freitext" },
+      { key: "loesung", type: "text", label: "Lösung",
+        showIf: { field: "antwortTyp", value: "freitext" } },
+      { key: "toleranzGrossKlein", type: "checkbox", label: "Groß/Klein ignorieren", default: true,
+        showIf: { field: "antwortTyp", value: "freitext" } },
+      { key: "antwortoptionen", type: "list", label: "Antwortoptionen",
+        showIf: { field: "antwortTyp", value: "multipleChoice" } },
+      { key: "richtigeAntwort", type: "text", label: "Richtige Option",
+        showIf: { field: "antwortTyp", value: "multipleChoice" } }
     ]
   },
   raetsel: {
