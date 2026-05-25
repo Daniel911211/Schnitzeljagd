@@ -82,54 +82,54 @@ const ExportTool = (() => {
       if (!st.name)
         fehler.push(`Station ${st.id}: kein Name.`);
       if (!st.hinweisKurz)
-        warn.push(`Station ${st.id}: Nächster Ort fehlt.`);
+        fehler.push(`Station ${st.id}: Nächster Ort fehlt.`);
       if (!st.hinweisNaechste)
-        warn.push(`Station ${st.id}: Hinweis zur nächsten Station fehlt.`);
+        fehler.push(`Station ${st.id}: Hinweis zur nächsten Station fehlt.`);
       // Typ-Pflichtfelder
       const tf = st.typFelder || {};
       switch (st.typ) {
         case "standard":
-          if (!tf.aufgabe) { warn.push(`Station ${st.id}: Aufgabe fehlt.`); break; }
+          if (!tf.aufgabe) { fehler.push(`Station ${st.id}: Aufgabe fehlt.`); break; }
           if (tf.antwortTyp === "multipleChoice") {
             if ((tf.antwortoptionen || []).filter(Boolean).length < 2)
-              warn.push(`Station ${st.id}: mindestens 2 Antwortoptionen benötigt.`);
+              fehler.push(`Station ${st.id}: mindestens 2 Antwortoptionen benötigt.`);
             if (!tf.richtigeAntwort)
-              warn.push(`Station ${st.id}: Richtige Option fehlt.`);
+              fehler.push(`Station ${st.id}: Richtige Option fehlt.`);
           } else if (!tf.loesung) {
-            warn.push(`Station ${st.id}: Lösung fehlt.`);
+            fehler.push(`Station ${st.id}: Lösung fehlt.`);
           }
           break;
         case "raetsel":
-          if (!tf.raetseltext) warn.push(`Station ${st.id}: Rätseltext fehlt.`);
-          if (!tf.loesung)    warn.push(`Station ${st.id}: Lösung fehlt.`);
+          if (!tf.raetseltext) fehler.push(`Station ${st.id}: Rätseltext fehlt.`);
+          if (!tf.loesung)     fehler.push(`Station ${st.id}: Lösung fehlt.`);
           break;
         case "feuerwehrwissen":
-          if (!tf.frage) { warn.push(`Station ${st.id}: Frage fehlt.`); break; }
+          if (!tf.frage) { fehler.push(`Station ${st.id}: Frage fehlt.`); break; }
           if (tf.antwortTyp === "multipleChoice") {
             if ((tf.antwortoptionen || []).filter(Boolean).length < 2)
-              warn.push(`Station ${st.id}: mindestens 2 Antwortoptionen benötigt.`);
+              fehler.push(`Station ${st.id}: mindestens 2 Antwortoptionen benötigt.`);
             if (!tf.richtigeAntwort)
-              warn.push(`Station ${st.id}: Richtige Option fehlt.`);
+              fehler.push(`Station ${st.id}: Richtige Option fehlt.`);
           } else if (!tf.antwortText) {
-            warn.push(`Station ${st.id}: Erwartete Antwort fehlt.`);
+            fehler.push(`Station ${st.id}: Erwartete Antwort fehlt.`);
           }
           break;
         case "fotoauftrag":
-          if (!tf.auftragstext) warn.push(`Station ${st.id}: Auftragstext fehlt.`);
+          if (!tf.auftragstext) fehler.push(`Station ${st.id}: Auftragstext fehlt.`);
           if (tf.abschlussModus === "bestaetigungswort" && !tf.bestaetigungswort)
-            warn.push(`Station ${st.id}: Bestätigungswort fehlt.`);
+            fehler.push(`Station ${st.id}: Bestätigungswort fehlt.`);
           break;
         case "geschicklichkeit":
-          if (!tf.beschreibung) warn.push(`Station ${st.id}: Beschreibung fehlt.`);
+          if (!tf.beschreibung) fehler.push(`Station ${st.id}: Beschreibung fehlt.`);
           if (tf.abschlussModus === "bestaetigungswort" && !tf.bestaetigungswort)
-            warn.push(`Station ${st.id}: Bestätigungswort fehlt.`);
+            fehler.push(`Station ${st.id}: Bestätigungswort fehlt.`);
           break;
         case "codewort":
-          if (!tf.codewort) warn.push(`Station ${st.id}: Codewort fehlt.`);
+          if (!tf.codewort) fehler.push(`Station ${st.id}: Codewort fehlt.`);
           break;
         case "kombi":
           if (!((tf.bausteine && tf.bausteine.aktiv) || []).length)
-            warn.push(`Station ${st.id}: kein aktiver Kombi-Baustein.`);
+            fehler.push(`Station ${st.id}: kein aktiver Kombi-Baustein.`);
           break;
       }
     });

@@ -117,6 +117,7 @@ const Stations = (() => {
         <div>Links eine Station wählen oder neu anlegen.</div></div></div>`;
       return;
     }
+    const gpsAktiv = Store.state.projekt.gpsAktiv !== false;
 
     const typDef = STATION_TYPES[s.typ] || STATION_TYPES.standard;
 
@@ -145,9 +146,11 @@ const Stations = (() => {
             <div class="hinweis">Wird vom Markerpunkt berechnet.</div>
           </div>
           <div class="feld">
-            <label>Position</label>
+            <label>${gpsAktiv ? "Position" : "Position (optional)"}</label>
             <input type="text" id="f-pos" readonly
-              value="${s.position ? s.position.lat.toFixed(5) + ", " + s.position.lng.toFixed(5) : "— über Karte setzen —"}">
+              value="${s.position
+                ? s.position.lat.toFixed(5) + ", " + s.position.lng.toFixed(5)
+                : (gpsAktiv ? "— über Karte setzen —" : "— GPS deaktiviert, keine Position erforderlich —")}">
           </div>
         </div>
         <div class="feld">
