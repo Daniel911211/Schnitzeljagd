@@ -14,6 +14,20 @@ const Stations = (() => {
         const s = Store.addStation();
         waehle(s.id);
       });
+
+    // Ampel-Legende Modal
+    const overlayAmpel = document.getElementById("overlay-ampel");
+    document.getElementById("btn-ampel-hilfe")
+      .addEventListener("click", () => { overlayAmpel.style.display = "grid"; });
+    document.getElementById("btn-ampel-schliessen")
+      .addEventListener("click", () => { overlayAmpel.style.display = "none"; });
+    overlayAmpel.addEventListener("click", e => {
+      if (e.target === overlayAmpel) overlayAmpel.style.display = "none";
+    });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") overlayAmpel.style.display = "none";
+    });
+
     Store.subscribe(() => { renderListe(); });
     renderListe();
     renderEditor();

@@ -88,13 +88,49 @@
         <div class="links">
           <div class="liste-kopf">
             <h2>Stationen</h2>
-            <button class="btn btn-primary btn-sm" id="btn-station-add">+ Station</button>
+            <div style="display:flex;gap:.4rem">
+              <button class="btn btn-primary btn-sm" id="btn-station-add">+ Station</button>
+              <button class="btn btn-light btn-sm" id="btn-ampel-hilfe" title="Ampel-Legende">? Ampel</button>
+            </div>
           </div>
           <div id="station-liste"></div>
         </div>
         <div class="rechts" id="station-editor"></div>
       </div>
     </section>
+
+    <!-- AMPEL-LEGENDE MODAL -->
+    <div class="overlay" id="overlay-ampel" style="display:none">
+      <div class="modal" style="max-width:440px">
+        <div class="modal-kopf">
+          <h3>Ampel-Legende</h3>
+          <button class="btn btn-light btn-sm" id="btn-ampel-schliessen">✕</button>
+        </div>
+        <div class="modal-body">
+          <p>Die drei Punkte je Station zeigen den Vorbereitungsstand.</p>
+          <p><strong>1. Marker</strong><br>
+            Zeigt, ob eine Position auf der Karte gesetzt ist.<br>
+            Bei aktivem GPS ist die Position <em>erforderlich</em>.<br>
+            Bei deaktiviertem GPS ist sie <em>optional</em> und wird nicht negativ bewertet.</p>
+          <p><strong>2. Link</strong><br>
+            Zeigt, ob der Stationslink vorhanden ist.</p>
+          <p><strong>3. Inhalt</strong><br>
+            Zeigt, ob die Station vollständig vorbereitet ist. Geprüft werden:
+          </p>
+          <ul>
+            <li>Stationsname</li>
+            <li>Nächster Ort</li>
+            <li>Hinweis zur nächsten Station</li>
+            <li>Pflichtfelder des gewählten Stationstyps (z. B. Aufgabe, Lösung, Frage)</li>
+          </ul>
+          <p><strong>Statusfarben:</strong><br>
+            🟢 Grün – vollständig &nbsp;
+            🟡 Gelb – teilweise unvollständig &nbsp;
+            ⚫ Grau – fehlt / nicht begonnen</p>
+          <p style="color:#6b7280;font-size:.85rem">Stationseinleitung und Bilder sind optional und beeinflussen die Ampel nicht.</p>
+        </div>
+      </div>
+    </div>
 
     <!-- KARTE -->
     <section class="tab-panel" id="tab-karte">
