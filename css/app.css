@@ -352,13 +352,13 @@ main { flex: 1; overflow: hidden; position: relative; }
 }
 .verteil-tab td { padding: .35rem .5rem; border-bottom: 1px solid var(--grau-hell); }
 .verteil-tab .t-nr { font-family: var(--display); font-weight: 700; width: 40px; }
-.verteil-tab .t-letter { width: 70px; }
-.verteil-tab .t-letter input {
-  width: 50px; text-align: center; font-family: var(--display);
-  font-weight: 700; font-size: 1rem;
-  padding: .3rem; border: 1px solid var(--rahmen); border-radius: 5px;
+.verteil-tab .t-letter {
+  width: 70px;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
 }
-.verteil-tab .t-letter input:focus { outline: none; border-color: var(--rot); }
 
 /* ---------- Wortdatenbank ---------- */
 .import-summary { margin-top: .9rem; font-size: .85rem; }
