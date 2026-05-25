@@ -405,3 +405,31 @@ main { flex: 1; overflow: hidden; position: relative; }
 .card-schatz h3 {
   color: #8a6000;
 }
+
+/* ---------- Standortprüfung / GPS-Karte ---------- */
+.card-gps { border-left: 4px solid var(--rahmen); }
+.card-gps h3 { color: #374151; }
+
+.gps-status {
+  display: flex; align-items: flex-start; gap: .7rem;
+  margin-top: 1rem; padding: .7rem .9rem;
+  border-radius: 6px; border: 1px solid var(--rahmen);
+  background: #f9fafb;
+}
+.gps-badge {
+  flex-shrink: 0; margin-top: .15rem;
+  font-size: .7rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .04em;
+  padding: .15rem .55rem; border-radius: 999px;
+  background: var(--grau-hell); color: #374151;
+}
+.gps-status-titel { display: block; font-size: .85rem; margin-bottom: .15rem; }
+.gps-status-info  { font-size: .78rem; color: var(--grau); }
+
+.gps-status.aktiv { background: #f0faf4; border-color: #bfe5cc; }
+.gps-status.aktiv .gps-badge { background: var(--gruen); color: #fff; }
+.card-gps.aktiv  { border-left-color: var(--gruen); }
+
+.gps-status.inaktiv { background: #fff7ed; border-color: #fed7aa; }
+.gps-status.inaktiv .gps-badge { background: var(--gelb); color: #fff; }
+.card-gps.inaktiv  { border-left-color: var(--gelb); }

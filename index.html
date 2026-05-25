@@ -44,25 +44,34 @@
             <label>Beschreibung</label>
             <textarea id="p-beschreibung" placeholder="Kurzbeschreibung der Schnitzeljagd"></textarea>
           </div>
-          <div class="row">
-            <div class="feld">
-              <label>Standardradius (m)</label>
-              <input type="number" id="p-standardRadius" min="1" value="30">
-              <div class="hinweis">Vorbelegung neuer Stationen.</div>
-            </div>
-            <div class="feld">
-              <label>GitHub-Basislink</label>
-              <input type="url" id="p-githubBasislink"
-                placeholder="https://BENUTZER.github.io/PROJEKT/">
-              <div class="hinweis">Basis für Stationslinks, QR-Codes und Bilder.</div>
-            </div>
+          <div class="feld">
+            <label>GitHub-Basislink</label>
+            <input type="url" id="p-githubBasislink"
+              placeholder="https://BENUTZER.github.io/PROJEKT/">
+            <div class="hinweis">Basis für Stationslinks, QR-Codes und Bilder.</div>
           </div>
+        </div>
+
+        <div class="card card-gps" id="card-gps">
+          <h3>📍 Standortprüfung / GPS</h3>
           <div class="feld">
             <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
-              <input type="checkbox" id="p-gpsAktiv" style="width:1.1rem;height:1.1rem;accent-color:var(--rot)">
+              <input type="checkbox" id="p-gpsAktiv" style="width:1.1rem;height:1.1rem">
               GPS-Prüfung an Stationen aktiv
             </label>
             <div class="hinweis">Deaktivieren, wenn die Veranstaltung z. B. nur im Feuerwehrhaus stattfindet – Teilnehmer sehen dann die Aufgabe ohne Standortprüfung.</div>
+          </div>
+          <div class="feld">
+            <label>Standardradius (m)</label>
+            <input type="number" id="p-standardRadius" min="1" value="30" style="max-width:160px">
+            <div class="hinweis">Vorbelegung neuer Stationen.</div>
+          </div>
+          <div class="gps-status" id="gps-status">
+            <span class="gps-badge"></span>
+            <div class="gps-status-text">
+              <strong class="gps-status-titel"></strong>
+              <div class="gps-status-info"></div>
+            </div>
           </div>
         </div>
 
