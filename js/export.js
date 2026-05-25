@@ -3,7 +3,7 @@
  *   - data.json wird OHNE Klartextlösungen erzeugt (Hash + XOR)
  *   - QR-PNG je Station × Gruppe
  *   - Stationsseite (station.html + Assets) gebündelt
- *   Die wortdatenbank und Klartextlösungen bleiben aus dem Export.
+ *   Die Wortdatenbank und Klartextlösungen bleiben aus dem Export.
  * ===================================================================== */
 
 const ExportTool = (() => {
@@ -193,7 +193,7 @@ const ExportTool = (() => {
       // 2) statische Assets – absolute URL + Inhaltsvalidierung.
       //    Verhindert stille Korruption: wenn deployed Dateien bereits falsch sind,
       //    liefert fetch() falschen Inhalt → sofortiger Abbruch mit Fehlermeldung.
-      const paginaBasis = window.location.href.replace(/[^/]*(\?.*)?$/, "");
+      const pageBasis = window.location.href.replace(/[^/]*(\?.*)?$/, "");
       const erwartungen = {
         ".html": ["<!DOCTYPE", "<html"],
         ".css": ["/*", "@import"],
@@ -201,7 +201,7 @@ const ExportTool = (() => {
       };
 
       for (const pfad of [...ASSETS, ...BIN_ASSETS]) {
-        const absoluteUrl = paginaBasis + pfad;
+        const absoluteUrl = pageBasis + pfad;
         const resp = await fetch(absoluteUrl, { cache: "no-store", credentials: "same-origin" });
         if (!resp.ok) throw new Error(`Asset nicht ladbar: ${pfad} (${resp.status})\nURL: ${absoluteUrl}`);
 
@@ -515,10 +515,11 @@ const ExportTool = (() => {
       "",
       "4. AUF GITHUB HOCHLADEN",
       "-----------------------",
-      "Das ZIP wird entpackt. Der gesamte Inhalt wird über GitHub Desktop in das",
-      "Repository geladen (Commit + Push). GitHub Desktop überträgt dabei die Ordner-",
-      "struktur korrekt. Nach dem Push aktualisiert sich GitHub Pages automatisch",
-      "innerhalb weniger Minuten.",
+      "Das ZIP wird entpackt. Der gesamte Inhalt wird in das GitHub-Repository",
+      "hochgeladen, z. B. über GitHub Desktop oder direkt über GitHub im Browser.",
+      "Wichtig ist, dass die Ordnerstruktur unverändert übernommen wird. Nach dem",
+      "Commit/Upload aktualisiert sich GitHub Pages automatisch innerhalb weniger",
+      "Minuten.",
       "",
       "5. BILDER",
       "---------",
