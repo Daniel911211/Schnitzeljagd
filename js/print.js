@@ -171,6 +171,39 @@ const PrintTool = (function () {
       karten += `</div></div>`;
     }
 
+    /* --- Stationsschild: Aufteilung dynamisch aus der Gruppenzahl ---
+       A4 hoch, 10mm Rand -> 190 x 277mm Inhalt. Davon gehen Kopfzeile,
+       Fussnote und Abstaende ab; im Rest wird die Spaltenzahl gesucht,
+       die den groesstmoeglichen QR-Code ergibt. */
+    const schildLayout = (function () {
+      const n       = gruppen.length;
+      const BREITE  = 188;   // mm nutzbare Breite (2mm Puffer gegen Umbruch-Rundung)
+      const HOEHE   = 222;   // mm nutzbare Hoehe (nach Kopf + Fuss + Abstaenden)
+      const ABSTAND = 6;     // mm zwischen den Kacheln
+      const LABEL   = 9;     // mm fuer die Gruppenbeschriftung unter dem QR
+      const MAX     = 85;    // mm Obergrenze, sonst wird es bei 1-2 Gruppen absurd
+
+      const kandidaten = [];
+      for (let c = 1; c <= n; c++) {
+        const r      = Math.ceil(n / c);
+        const zelleB = (BREITE - ABSTAND * (c - 1)) / c;
+        const zelleH = (HOEHE  - ABSTAND * (r - 1)) / r;
+        kandidaten.push({ spalten: c, qr: Math.min(zelleB, zelleH - LABEL) });
+      }
+      const groesster = Math.max(...kandidaten.map(k => k.qr));
+      // Breitere Aufteilung bevorzugen, solange der QR-Code dabei kaum
+      // kleiner wird – fuellt die Seitenbreite statt eine schmale Spalte.
+      const best = kandidaten
+        .filter(k => k.qr >= groesster * 0.95)
+        .reduce((a, b) => (b.spalten > a.spalten ? b : a));
+      const qr = Math.min(best.qr, MAX);
+      return {
+        spalten: best.spalten,
+        qr:      Math.floor(qr * 10) / 10,                       // auf 0,1mm
+        schrift: Math.max(9, Math.min(16, Math.round(qr / 5)))   // pt, skaliert mit
+      };
+    })();
+
     // --- Stationsschild: ein Blatt je Station mit allen Gruppen ---
     let schilder = "";
     for (const st of stationen) {
@@ -238,15 +271,22 @@ const PrintTool = (function () {
         .gruppen-block:first-child { page-break-before: auto; }
 
         /* ---------- Stationsschild ---------- */
-        .schild { page-break-after: always; }
+        /* Blatt fuellt die Seitenhoehe, QR-Block sitzt mittig, Fussnote unten.
+           270mm statt 277mm, damit Rundungen keine Leerseite ausloesen. */
+        .schild { page-break-after: always; min-height: 270mm;
+                  display: flex; flex-direction: column; }
         .schild:last-child { page-break-after: auto; }
-        .schild-grid { display: flex; flex-wrap: wrap; justify-content: center;
+        /* Spaltenzahl und QR-Groesse kommen aus schildLayout (Gruppenzahl) */
+        .schild-grid { display: flex; flex-wrap: wrap; flex: 1;
+                       justify-content: center; align-content: center;
                        gap: 6mm; margin-top: 8mm; }
-        .schild-karte { text-align: center;
+        .schild-karte { text-align: center; width: ${schildLayout.qr}mm;
                         page-break-inside: avoid; break-inside: avoid; }
-        .schild-img { width: 48mm; height: 48mm; display: block; }
+        .schild-img { width: ${schildLayout.qr}mm; height: ${schildLayout.qr}mm;
+                      display: block; }
         .schild-gruppe { font-family: 'Oswald', sans-serif; font-weight: 700;
-                         font-size: 13pt; color: #c8102e; margin-top: 2mm; }
+                         font-size: ${schildLayout.schrift}pt; color: #c8102e;
+                         margin-top: 2mm; }
         .schild-fuss { margin-top: 10mm; text-align: center;
                        font-size: 10pt; color: #6b7280; }
 
