@@ -7,7 +7,8 @@
     "githubBasislink": "",
     "gpsAktiv": false,
     "schatzbild": "",
-    "schatztext": "Super gemacht! Ihr habt alle 25 Stationen an allen 5 Fahrzeugen geschafft und kennt euch jetzt richtig gut aus. Zeigt euer Lösungswort dem Ausbilder."
+    "schatztext": "Super gemacht! Ihr habt alle 25 Stationen an allen 5 Fahrzeugen geschafft und kennt euch jetzt richtig gut aus. Zeigt euer Lösungswort dem Ausbilder.",
+    "buchstabenMischen": false
   },
   "stationen": [
     {
@@ -579,22 +580,27 @@
   "gruppen": {
     "G1": {
       "loesungswort": "",
+      "hinweis": "Zwei Teile, beide enden auf dasselbe Wort. Der eine steht unter Druck, durch den anderen wird Wasser angesaugt. Aufteilung 13 + 12.",
       "buchstaben": {}
     },
     "G2": {
       "loesungswort": "",
+      "hinweis": "Drei Teile aus dem Löschangriff. Vorne kommt das Wasser heraus, in der Mitte dreht man auf und zu, hinten wird die Leitung aufgeteilt. Aufteilung 10 + 6 + 9.",
       "buchstaben": {}
     },
     "G3": {
       "loesungswort": "",
+      "hinweis": "Ausnahmsweise keine Geräte, sondern ihr selbst: wer ihr seid, woher ihr kommt, und was ihr zusammen seid. Aufteilung 15 + 6 + 4.",
       "buchstaben": {}
     },
     "G4": {
       "loesungswort": "",
+      "hinweis": "Zwei Teile. Der erste steht auf jedem eurer Fahrzeuge, der zweite ist das Gerät mit der Pressluftflasche auf dem Rücken. Achtung: das ä wird AE geschrieben. Aufteilung 9 + 16.",
       "buchstaben": {}
     },
     "G5": {
       "loesungswort": "",
+      "hinweis": "Zwei Teile, die zusammengehören: das eine macht Licht, das andere liefert den Strom dafür. Achtung: in der Mitte treffen zwei S aufeinander. Aufteilung 12 + 13.",
       "buchstaben": {}
     }
   },

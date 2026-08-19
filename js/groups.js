@@ -106,6 +106,11 @@ const Groups = (() => {
             ${dbWords.map(w => `<option value="${esc(w.wort)}">${esc(w.kat)}: ${esc(w.wort)}</option>`).join("")}
           </select>
         </div>` : `<div class="hinweis">Wortdatenbank ist leer — Wort manuell eingeben.</div>`}
+        <div class="feld">
+          <label>Hinweis zum Lösungswort (nur für Betreuer)</label>
+          <textarea id="g-hinweis" placeholder="z. B. Zwei Teile: der eine steht unter Druck, durch den anderen wird Wasser angesaugt. Aufteilung 13 + 12.">${esc(grp.hinweis || "")}</textarea>
+          <div class="hinweis">Erscheint auf der Spielleitungsübersicht, nicht auf der Teilnehmerseite.</div>
+        </div>
         <div class="editor-foot" style="margin-top:.5rem">
           <button class="btn btn-danger btn-sm" id="btn-del-gruppe">Gruppe löschen</button>
         </div>
@@ -142,6 +147,14 @@ const Groups = (() => {
       grp.buchstaben = {};
       return;
     }
+    // Ohne Mischen: Buchstabe n gehoert zu Station n – das Wort ergibt sich
+    // beim Ablaufen der Stationen direkt in der richtigen Reihenfolge.
+    if (Store.state.projekt.buchstabenMischen === false) {
+      const map = {};
+      stationen.forEach((sid, i) => map[sid] = wort[i]);
+      grp.buchstaben = map;
+      return;
+    }
     const andere = Object.entries(Store.state.gruppen)
       .filter(([gid]) => gid !== id)
       .map(([, g]) => g.buchstaben || {});
@@ -165,6 +178,12 @@ const Groups = (() => {
       applyAutoVerteilung(grp, id, stationen);
       Store.commit();
       renderEditor();
+    });
+
+    const hinwEl = document.getElementById("g-hinweis");
+    if (hinwEl) hinwEl.addEventListener("change", () => {
+      grp.hinweis = hinwEl.value.trim();
+      Store.commit();
     });
 
     document.getElementById("btn-del-gruppe").addEventListener("click", () => {

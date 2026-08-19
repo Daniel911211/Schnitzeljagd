@@ -409,12 +409,15 @@ const PrintTool = (function () {
       const buchstaben = Object.entries(grp.buchstaben || {})
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([sid, b]) => `${sid}=${b}`).join(", ");
+      const hinweis = (grp.hinweis || "").trim();
       return `<div class="gruppen-grid-row">
         <div>${esc(gid)}</div>
         <div><div class="kinder-linie"></div></div>
         <div>${esc(grp.loesungswort || "—")}</div>
         <div style="font-size:8.5pt">${esc(buchstaben || "—")}</div>
-      </div>`;
+      </div>
+      ${hinweis ? `<div class="gruppen-hinweis">
+        <strong>Hinweis für Betreuer:</strong> ${esc(hinweis)}</div>` : ""}`;
     }).join("");
 
     const html = `<!DOCTYPE html><html lang="de"><head>
@@ -451,6 +454,12 @@ const PrintTool = (function () {
         }
         .gruppen-grid-row:nth-child(even) { background: #f9fafb; }
         .gruppen-grid-row { padding: 20pt 6pt 8pt; }
+        .gruppen-hinweis {
+          font-size: 9pt; color: #374151; background: #fffbeb;
+          border-left: 3pt solid #f59e0b;
+          padding: 5pt 8pt; margin: 0 0 4pt;
+          page-break-inside: avoid; break-inside: avoid;
+        }
         .kinder-linie {
           border-bottom: 1.3pt solid #1c2024;
           height: 16pt; width: 100%;

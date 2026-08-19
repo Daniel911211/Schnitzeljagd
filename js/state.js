@@ -102,6 +102,7 @@ function leeresProjekt() {
       standardRadius: 30,
       githubBasislink: "",
       gpsAktiv: true,
+      buchstabenMischen: false,   // false = Buchstaben in Stationsreihenfolge
       schatzbild: "",
       schatztext: ""
     },
@@ -236,6 +237,8 @@ function migriere(data) {
   base.projekt = Object.assign(base.projekt, data.projekt || {});
   base.stationen = Array.isArray(data.stationen) ? data.stationen : [];
   base.gruppen = data.gruppen || {};
+  // Hinweistext je Gruppe ergaenzen (aeltere Projekte kennen das Feld nicht)
+  Object.values(base.gruppen).forEach(g => { if (typeof g.hinweis !== "string") g.hinweis = ""; });
   base.wortdatenbank = data.wortdatenbank || {};
 
   // fehlende Felder pro Station auffüllen

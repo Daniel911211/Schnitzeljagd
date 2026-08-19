@@ -53,6 +53,13 @@ const App = (() => {
       Store.state.projekt.gpsAktiv = e.target.checked;
       Store.commit();
     });
+    document.getElementById("p-buchstabenMischen").addEventListener("change", e => {
+      Store.state.projekt.buchstabenMischen = e.target.checked;
+      Store.commit();
+      alert(e.target.checked
+        ? "Buchstaben werden ab jetzt gemischt. Damit die Änderung greift, in Tab „Gruppen“ je Gruppe das Lösungswort erneut auswählen."
+        : "Buchstaben folgen ab jetzt der Stationsreihenfolge. Damit die Änderung greift, in Tab „Gruppen“ je Gruppe das Lösungswort erneut auswählen.");
+    });
   }
   function renderAllgemein(state) {
     const p = state.projekt;
@@ -63,6 +70,7 @@ const App = (() => {
     setVal("p-schatzbild", p.schatzbild);
     setVal("p-schatztext", p.schatztext);
     document.getElementById("p-gpsAktiv").checked = p.gpsAktiv !== false;
+    document.getElementById("p-buchstabenMischen").checked = p.buchstabenMischen === true;
     // Titel in der Kopfzeile spiegeln
     document.getElementById("titel-anzeige").textContent =
       p.titel ? "· " + p.titel : "· Neues Projekt";
