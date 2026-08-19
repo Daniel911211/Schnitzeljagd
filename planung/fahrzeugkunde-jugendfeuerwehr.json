@@ -1,0 +1,610 @@
+{
+  "version": "1.0",
+  "projekt": {
+    "titel": "Fahrzeug- und Gerätekunde – Jugendfeuerwehr",
+    "beschreibung": "Lernkontrolle Fahrzeug- und Gerätekunde für 10- bis 14-Jährige. 25 Stationen an 5 Fahrzeugen (HLF 20, LF 20, GW-L, ELW, MTW), 5 Gruppen. GPS ist deaktiviert.",
+    "standardRadius": 30,
+    "githubBasislink": "",
+    "gpsAktiv": false,
+    "schatzbild": "",
+    "schatztext": "Super gemacht! Ihr habt alle 25 Stationen an allen 5 Fahrzeugen geschafft und kennt euch jetzt richtig gut aus. Zeigt euer Lösungswort dem Ausbilder."
+  },
+  "stationen": [
+    {
+      "id": "01",
+      "name": "HLF 20 – Was bedeutet der Name?",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: HLF 20",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am HLF 20 und geht zur nächsten Station.",
+      "hinweisKurz": "HLF 20",
+      "githubLink": "station.html?station=01",
+      "typFelder": {
+        "frage": "Ihr steht vor dem HLF 20. Wofür stehen die Buchstaben HLF?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Hilfeleistungslöschgruppenfahrzeug",
+          "Hauptlöschfahrzeug",
+          "Handlöschfahrzeug",
+          "Hebeleiterfahrzeug"
+        ],
+        "richtigeAntwort": "Hilfeleistungslöschgruppenfahrzeug",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "02",
+      "name": "HLF 20 – Der Wassertank",
+      "typ": "standard",
+      "aufgabe": "Fahrzeug: HLF 20",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am HLF 20 und geht zur nächsten Station.",
+      "hinweisKurz": "HLF 20",
+      "githubLink": "station.html?station=02",
+      "typFelder": {
+        "aufgabe": "Sucht am HLF 20 den Wassertank. Am Fahrzeug steht, wie viele Liter Wasser hineinpassen. Tragt die Zahl ein (nur die Zahl, ohne das Wort Liter).",
+        "antwortTyp": "freitext",
+        "loesung": "1600",
+        "toleranzGrossKlein": true
+      }
+    },
+    {
+      "id": "03",
+      "name": "HLF 20 – Der Rettungssatz",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: HLF 20",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am HLF 20 und geht zur nächsten Station.",
+      "hinweisKurz": "HLF 20",
+      "githubLink": "station.html?station=03",
+      "typFelder": {
+        "frage": "Am HLF 20 liegen Spreizer und Schere. Wofür braucht die Feuerwehr diese Geräte?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Um eingeklemmte Menschen aus Autos zu befreien",
+          "Um Feuer zu löschen",
+          "Um Wasser zu pumpen",
+          "Um Leitern auszufahren"
+        ],
+        "richtigeAntwort": "Um eingeklemmte Menschen aus Autos zu befreien",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "04",
+      "name": "HLF 20 – Die Saugschläuche",
+      "typ": "standard",
+      "aufgabe": "Fahrzeug: HLF 20",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am HLF 20 und geht zur nächsten Station.",
+      "hinweisKurz": "HLF 20",
+      "githubLink": "station.html?station=04",
+      "typFelder": {
+        "aufgabe": "Sucht am HLF 20 die dicken, festen Saugschläuche. Sie sehen aus wie ein Ringelschlauch und lassen sich nicht zusammendrücken. Zählt sie und tragt die Anzahl ein.",
+        "antwortTyp": "freitext",
+        "loesung": "4",
+        "toleranzGrossKlein": true
+      }
+    },
+    {
+      "id": "05",
+      "name": "HLF 20 – Der Atemschutz",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: HLF 20",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Das war die letzte Station am HLF 20. Geht jetzt weiter zum LF 20.",
+      "hinweisKurz": "LF 20",
+      "githubLink": "station.html?station=05",
+      "typFelder": {
+        "frage": "Im Mannschaftsraum hängen die Pressluftatmer. Was ist in den Flaschen drin?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Ganz normale Druckluft",
+          "Reiner Sauerstoff",
+          "Helium",
+          "Wasserdampf"
+        ],
+        "richtigeAntwort": "Ganz normale Druckluft",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "06",
+      "name": "LF 20 – Was bedeutet der Name?",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: LF 20",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am LF 20 und geht zur nächsten Station.",
+      "hinweisKurz": "LF 20",
+      "githubLink": "station.html?station=06",
+      "typFelder": {
+        "frage": "Jetzt geht es zum LF 20. Wofür stehen die Buchstaben LF?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Löschgruppenfahrzeug",
+          "Leiterfahrzeug",
+          "Lastfahrzeug",
+          "Luftfahrzeug"
+        ],
+        "richtigeAntwort": "Löschgruppenfahrzeug",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "07",
+      "name": "LF 20 – Der B-Schlauch",
+      "typ": "standard",
+      "aufgabe": "Fahrzeug: LF 20",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am LF 20 und geht zur nächsten Station.",
+      "hinweisKurz": "LF 20",
+      "githubLink": "station.html?station=07",
+      "typFelder": {
+        "aufgabe": "Sucht am LF 20 die dicken B-Schläuche. Jeder gerollte B-Schlauch ist gleich lang. Wie viele Meter sind das? Tragt nur die Zahl ein.",
+        "antwortTyp": "freitext",
+        "loesung": "20",
+        "toleranzGrossKlein": true
+      }
+    },
+    {
+      "id": "08",
+      "name": "LF 20 – Der Verteiler",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: LF 20",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am LF 20 und geht zur nächsten Station.",
+      "hinweisKurz": "LF 20",
+      "githubLink": "station.html?station=08",
+      "typFelder": {
+        "frage": "Am LF 20 liegt der Verteiler. Er hat einen Eingang und drei Ausgänge. Was macht er?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Er teilt eine Wasserleitung in mehrere Leitungen auf",
+          "Er macht das Wasser wärmer",
+          "Er filtert das Wasser sauber",
+          "Er erzeugt Strom"
+        ],
+        "richtigeAntwort": "Er teilt eine Wasserleitung in mehrere Leitungen auf",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "09",
+      "name": "LF 20 – Die Steckleiter",
+      "typ": "standard",
+      "aufgabe": "Fahrzeug: LF 20",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am LF 20 und geht zur nächsten Station.",
+      "hinweisKurz": "LF 20",
+      "githubLink": "station.html?station=09",
+      "typFelder": {
+        "aufgabe": "Auf dem Dach des LF 20 liegt die Steckleiter. Sie besteht aus mehreren Teilen, die man ineinander steckt. Zählt die Teile und tragt die Anzahl ein.",
+        "antwortTyp": "freitext",
+        "loesung": "4",
+        "toleranzGrossKlein": true
+      }
+    },
+    {
+      "id": "10",
+      "name": "LF 20 – Das Standrohr",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: LF 20",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Das war die letzte Station am LF 20. Geht jetzt weiter zum GW-L.",
+      "hinweisKurz": "GW-L",
+      "githubLink": "station.html?station=10",
+      "typFelder": {
+        "frage": "Am LF 20 liegt ein Standrohr. Wofür wird es gebraucht?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Um Wasser aus einem Hydranten im Boden zu holen",
+          "Um Schläuche aufzuhängen",
+          "Als Stütze für die Leiter",
+          "Um das Fahrzeug abzustützen"
+        ],
+        "richtigeAntwort": "Um Wasser aus einem Hydranten im Boden zu holen",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "11",
+      "name": "GW-L – Was bedeutet der Name?",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: GW-L",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am GW-L und geht zur nächsten Station.",
+      "hinweisKurz": "GW-L",
+      "githubLink": "station.html?station=11",
+      "typFelder": {
+        "frage": "Weiter zum GW-L. Wofür stehen die Buchstaben GW-L?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Gerätewagen Logistik",
+          "Großwagen Löschen",
+          "Gerätewagen Leiter",
+          "Gruppenwagen Land"
+        ],
+        "richtigeAntwort": "Gerätewagen Logistik",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "12",
+      "name": "GW-L – Die Rollcontainer",
+      "typ": "standard",
+      "aufgabe": "Fahrzeug: GW-L",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am GW-L und geht zur nächsten Station.",
+      "hinweisKurz": "GW-L",
+      "githubLink": "station.html?station=12",
+      "typFelder": {
+        "aufgabe": "Im GW-L stehen Rollcontainer. Damit man sie schieben kann, haben sie Rollen. Schaut euch einen Rollcontainer von unten an und zählt seine Rollen.",
+        "antwortTyp": "freitext",
+        "loesung": "4",
+        "toleranzGrossKlein": true
+      }
+    },
+    {
+      "id": "13",
+      "name": "GW-L – Wofür ist das Fahrzeug da?",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: GW-L",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am GW-L und geht zur nächsten Station.",
+      "hinweisKurz": "GW-L",
+      "githubLink": "station.html?station=13",
+      "typFelder": {
+        "frage": "Der GW-L hat keinen Wassertank und keine Pumpe. Was ist seine Aufgabe im Einsatz?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Er bringt Nachschub und Material zur Einsatzstelle",
+          "Er löscht große Feuer",
+          "Er transportiert Verletzte",
+          "Er leitet den Einsatz"
+        ],
+        "richtigeAntwort": "Er bringt Nachschub und Material zur Einsatzstelle",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "14",
+      "name": "GW-L – Der C-Schlauch",
+      "typ": "standard",
+      "aufgabe": "Fahrzeug: GW-L",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am GW-L und geht zur nächsten Station.",
+      "hinweisKurz": "GW-L",
+      "githubLink": "station.html?station=14",
+      "typFelder": {
+        "aufgabe": "Sucht im GW-L die dünneren C-Schläuche. Ein gerollter C-Schlauch ist immer gleich lang. Wie viele Meter sind das? Tragt nur die Zahl ein.",
+        "antwortTyp": "freitext",
+        "loesung": "15",
+        "toleranzGrossKlein": true
+      }
+    },
+    {
+      "id": "15",
+      "name": "GW-L – Das Ölbindemittel",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: GW-L",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Das war die letzte Station am GW-L. Geht jetzt weiter zum ELW.",
+      "hinweisKurz": "ELW",
+      "githubLink": "station.html?station=15",
+      "typFelder": {
+        "frage": "Im GW-L stehen Säcke mit Ölbindemittel. Wofür streut die Feuerwehr das aus?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Um ausgelaufenes Öl auf der Straße aufzusaugen",
+          "Um Feuer zu ersticken",
+          "Um den Boden zu reinigen",
+          "Um Schaum herzustellen"
+        ],
+        "richtigeAntwort": "Um ausgelaufenes Öl auf der Straße aufzusaugen",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "16",
+      "name": "ELW – Was bedeutet der Name?",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: ELW",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am ELW und geht zur nächsten Station.",
+      "hinweisKurz": "ELW",
+      "githubLink": "station.html?station=16",
+      "typFelder": {
+        "frage": "Ihr steht am ELW. Wofür stehen die Buchstaben ELW?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Einsatzleitwagen",
+          "Elektrowagen",
+          "Einsatzlöschwagen",
+          "Erste-Hilfe-Wagen"
+        ],
+        "richtigeAntwort": "Einsatzleitwagen",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "17",
+      "name": "ELW – Der Notruf",
+      "typ": "standard",
+      "aufgabe": "Fahrzeug: ELW",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am ELW und geht zur nächsten Station.",
+      "hinweisKurz": "ELW",
+      "githubLink": "station.html?station=17",
+      "typFelder": {
+        "aufgabe": "Im ELW laufen alle Meldungen zusammen. Welche Nummer wählt man in Deutschland, um die Feuerwehr zu rufen? Tragt die Zahl ein.",
+        "antwortTyp": "freitext",
+        "loesung": "112",
+        "toleranzGrossKlein": true
+      }
+    },
+    {
+      "id": "18",
+      "name": "ELW – Wer arbeitet hier?",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: ELW",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am ELW und geht zur nächsten Station.",
+      "hinweisKurz": "ELW",
+      "githubLink": "station.html?station=18",
+      "typFelder": {
+        "frage": "Im ELW sitzt jemand, der bei einem großen Einsatz alles überblickt und sagt, wer was macht. Wer ist das?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Der Einsatzleiter",
+          "Der Maschinist",
+          "Der Melder",
+          "Der Fahrer"
+        ],
+        "richtigeAntwort": "Der Einsatzleiter",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "19",
+      "name": "ELW – Die Fahrzeugfarbe",
+      "typ": "standard",
+      "aufgabe": "Fahrzeug: ELW",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am ELW und geht zur nächsten Station.",
+      "hinweisKurz": "ELW",
+      "githubLink": "station.html?station=19",
+      "typFelder": {
+        "aufgabe": "Schaut euch den ELW und alle anderen Fahrzeuge genau an. Welche Farbe haben Feuerwehrfahrzeuge in Deutschland? Tragt die Farbe als Wort ein.",
+        "antwortTyp": "freitext",
+        "loesung": "rot",
+        "toleranzGrossKlein": true
+      }
+    },
+    {
+      "id": "20",
+      "name": "ELW – Der richtige Notruf",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: ELW",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Das war die letzte Station am ELW. Geht jetzt weiter zum MTW.",
+      "hinweisKurz": "MTW",
+      "githubLink": "station.html?station=20",
+      "typFelder": {
+        "frage": "Ihr ruft die Feuerwehr. Was ist beim Notruf am allerwichtigsten?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Sagen, wo genau etwas passiert ist",
+          "Schnell wieder auflegen",
+          "Den eigenen Namen buchstabieren",
+          "Nach dem Namen des Feuerwehrmanns fragen"
+        ],
+        "richtigeAntwort": "Sagen, wo genau etwas passiert ist",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "21",
+      "name": "MTW – Was bedeutet der Name?",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: MTW",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am MTW und geht zur nächsten Station.",
+      "hinweisKurz": "MTW",
+      "githubLink": "station.html?station=21",
+      "typFelder": {
+        "frage": "Letztes Fahrzeug: der MTW. Wofür stehen die Buchstaben MTW?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Mannschaftstransportwagen",
+          "Materialtransportwagen",
+          "Mehrzwecktankwagen",
+          "Motortragkraftwagen"
+        ],
+        "richtigeAntwort": "Mannschaftstransportwagen",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "22",
+      "name": "MTW – Die Sitzplätze",
+      "typ": "standard",
+      "aufgabe": "Fahrzeug: MTW",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am MTW und geht zur nächsten Station.",
+      "hinweisKurz": "MTW",
+      "githubLink": "station.html?station=22",
+      "typFelder": {
+        "aufgabe": "Steigt in den MTW ein und zählt alle Sitzplätze – der Fahrersitz zählt mit. Tragt die Anzahl ein.",
+        "antwortTyp": "freitext",
+        "loesung": "9",
+        "toleranzGrossKlein": true
+      }
+    },
+    {
+      "id": "23",
+      "name": "MTW – Wofür ist er da?",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: MTW",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am MTW und geht zur nächsten Station.",
+      "hinweisKurz": "MTW",
+      "githubLink": "station.html?station=23",
+      "typFelder": {
+        "frage": "Der MTW hat keine Pumpe und keinen Wassertank. Wofür wird er gebraucht?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Um Einsatzkräfte und die Jugendfeuerwehr zu transportieren",
+          "Um Feuer zu löschen",
+          "Um Wasser zu transportieren",
+          "Um Leitern zu tragen"
+        ],
+        "richtigeAntwort": "Um Einsatzkräfte und die Jugendfeuerwehr zu transportieren",
+        "bonusfrage": ""
+      }
+    },
+    {
+      "id": "24",
+      "name": "MTW – Die Räder",
+      "typ": "standard",
+      "aufgabe": "Fahrzeug: MTW",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Bleibt am MTW und geht zur nächsten Station.",
+      "hinweisKurz": "MTW",
+      "githubLink": "station.html?station=24",
+      "typFelder": {
+        "aufgabe": "Geht einmal um den MTW herum und zählt seine Räder. Tragt die Anzahl ein.",
+        "antwortTyp": "freitext",
+        "loesung": "4",
+        "toleranzGrossKlein": true
+      }
+    },
+    {
+      "id": "25",
+      "name": "MTW – Sicher mitfahren",
+      "typ": "feuerwehrwissen",
+      "aufgabe": "Fahrzeug: MTW",
+      "bilder": [],
+      "externerBildlink": "",
+      "position": null,
+      "radius": 30,
+      "hinweisNaechste": "Das war die letzte Station. Setzt eure gesammelten Buchstaben zum Lösungswort zusammen und meldet euch beim Ausbilder.",
+      "hinweisKurz": "Ziel",
+      "githubLink": "station.html?station=25",
+      "typFelder": {
+        "frage": "Ihr fahrt im MTW zur Übung mit. Warum müsst ihr euch anschnallen?",
+        "antwortTyp": "multipleChoice",
+        "antwortoptionen": [
+          "Damit man bei einer Vollbremsung nicht nach vorne geschleudert wird",
+          "Damit man bequemer sitzt",
+          "Damit der Fahrer schneller fahren darf",
+          "Damit die Tür zugeht"
+        ],
+        "richtigeAntwort": "Damit man bei einer Vollbremsung nicht nach vorne geschleudert wird",
+        "bonusfrage": ""
+      }
+    }
+  ],
+  "gruppen": {
+    "G1": {
+      "loesungswort": "",
+      "buchstaben": {}
+    },
+    "G2": {
+      "loesungswort": "",
+      "buchstaben": {}
+    },
+    "G3": {
+      "loesungswort": "",
+      "buchstaben": {}
+    },
+    "G4": {
+      "loesungswort": "",
+      "buchstaben": {}
+    },
+    "G5": {
+      "loesungswort": "",
+      "buchstaben": {}
+    }
+  },
+  "wortdatenbank": {
+    "Fahrzeugkunde Jugendfeuerwehr": [
+      "DRUCKSCHLAUCHSAUGSCHLAUCH",
+      "STRAHLROHRVENTILVERTEILER",
+      "JUGENDFEUERWEHRNEUHOFTEAM",
+      "FEUERWEHRATEMSCHUTZGERAET",
+      "BELEUCHTUNGSSTROMERZEUGER"
+    ]
+  }
+}
