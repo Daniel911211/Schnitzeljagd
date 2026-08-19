@@ -131,8 +131,15 @@ const PrintTool = (function () {
     const basis = normBasis(s.projekt.githubBasislink);
     const titel = esc(s.projekt.titel || "Schnitzeljagd");
     const gruppen = Object.entries(s.gruppen);
-    const stationen = [...s.stationen].sort((a, b) => a.id.localeCompare(b.id));
+    // numerisch sortieren wie Solution.stationIdsSortiert()
+    const stationen = [...s.stationen].sort((a, b) => parseInt(a.id, 10) - parseInt(b.id, 10));
 
+    // G1 → "Gruppe 1", sonst "Gruppe <id>"
+    function gruppeLabel(gid) {
+      return /^G(\d+)$/.test(gid) ? "Gruppe " + gid.slice(1) : "Gruppe " + esc(gid);
+    }
+
+    // QR-Bilder einmal erzeugen und in allen Layouts wiederverwenden
     const qrMap = {};
     for (const [gid] of gruppen) {
       for (const st of stationen) {
@@ -141,28 +148,44 @@ const PrintTool = (function () {
       }
     }
 
+    // --- Einzelkarten zum Ausschneiden, je Gruppe ein Block ---
+    // Wird nur EINMAL ins HTML geschrieben; kompakt/groß schalten per CSS-Klasse um,
+    // damit die QR-Bilddaten nicht doppelt im Dokument landen.
     let karten = "";
-    for (const [gid, grp] of gruppen) {
-      // G1 → Gruppe 1, G2 → Gruppe 2, sonst direkt anzeigen
-      const gruppeLabel = /^G(\d+)$/.test(gid)
-        ? "Gruppe " + gid.slice(1)
-        : "Gruppe " + esc(gid);
-
+    for (const [gid] of gruppen) {
       karten += `<div class="gruppen-block">
-        ${kopfHTML("QR-Codes", titel, "")}
-        <h2>${gruppeLabel}</h2>
-        <div class="qr-grid">`;
+        ${kopfHTML("QR-Codes zum Ausschneiden", titel, "")}
+        <h2>${gruppeLabel(gid)}</h2>
+        <div class="karten-grid">`;
       for (const st of stationen) {
-        const dataUrl = qrMap[gid + "_" + st.id];
         const stNr = parseInt(st.id, 10) || st.id;
         karten += `
           <div class="qr-karte">
-            <img src="${dataUrl}" alt="QR" class="qr-img">
-            <div class="qr-station-label">Station ${stNr}</div>
-            <div class="qr-gruppe-label">${gruppeLabel}</div>
+            <span class="schere">✂</span>
+            <img src="${qrMap[gid + "_" + st.id]}" alt="QR" class="qr-img">
+            <div class="qr-nr">Station ${stNr}</div>
+            <div class="qr-name">${esc(st.name || "—")}</div>
+            <div class="qr-gruppe">${gruppeLabel(gid)}</div>
           </div>`;
       }
       karten += `</div></div>`;
+    }
+
+    // --- Stationsschild: ein Blatt je Station mit allen Gruppen ---
+    let schilder = "";
+    for (const st of stationen) {
+      const stNr = parseInt(st.id, 10) || st.id;
+      schilder += `<div class="schild">
+        ${kopfHTML("Station " + stNr, esc(st.name || "—"), "")}
+        <div class="schild-grid">
+          ${gruppen.map(([gid]) => `
+            <div class="schild-karte">
+              <img src="${qrMap[gid + "_" + st.id]}" alt="QR" class="schild-img">
+              <div class="schild-gruppe">${gruppeLabel(gid)}</div>
+            </div>`).join("")}
+        </div>
+        <div class="schild-fuss">Jede Gruppe scannt ihren eigenen QR-Code.</div>
+      </div>`;
     }
 
     const html = `<!DOCTYPE html><html lang="de"><head>
@@ -170,23 +193,120 @@ const PrintTool = (function () {
       <title>QR-Codes – ${titel}</title>
       ${druckCSS()}
       <style>
-        .qr-grid { display: flex; flex-wrap: wrap; gap: 14pt; margin: 8pt 0 16pt; }
-        .qr-karte { border: 1.5pt solid #e5e7eb; border-radius: 8pt;
-                    padding: 10pt; text-align: center; width: 175pt; }
-        .qr-img { width: 155pt; height: 155pt; display: block; margin: 0 auto 8pt; }
-        .qr-station-label { font-family: 'Oswald', sans-serif; font-weight: 700;
-                     font-size: 13pt; color: #c8102e; }
-        .qr-gruppe-label { font-size: 9.5pt; color: #6b7280; margin-top: 3pt; }
+        @page { size: A4 portrait; margin: 10mm; }
+
+        /* nur das aktive Layout ist sichtbar – auch im Ausdruck */
+        .layout { display: none; }
+        .layout.aktiv { display: block; }
+
+        /* ---------- Einzelkarten zum Ausschneiden ---------- */
+        .karten-grid { display: flex; flex-wrap: wrap; margin-top: 6pt; }
+        .qr-karte {
+          width: 50%;
+          border: 1pt dashed #9ca3af;
+          padding: 5mm 4mm;
+          text-align: center;
+          page-break-inside: avoid;   /* Karten nie am Seitenumbruch zerreißen */
+          break-inside: avoid;
+          position: relative;
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
+        }
+        .schere { position: absolute; top: 2mm; left: 2.5mm;
+                  font-size: 8pt; color: #d1d5db; line-height: 1; }
+        .qr-img { display: block; margin: 0 auto 3mm; }
+        .qr-nr { font-family: 'Oswald', sans-serif; font-weight: 700;
+                 color: #c8102e; line-height: 1.1; }
+        .qr-name { font-weight: 600; margin-top: 1mm; line-height: 1.25; }
+        .qr-gruppe { color: #6b7280; margin-top: 1.5mm; }
+
+        /* kompakt: 2 x 3 = 6 pro Seite (3 x 88mm = 264mm passen in 277mm) */
+        #layout-karten.modus-kompakt .qr-karte { height: 88mm; }
+        #layout-karten.modus-kompakt .qr-img   { width: 55mm; height: 55mm; }
+        #layout-karten.modus-kompakt .qr-nr    { font-size: 14pt; }
+        #layout-karten.modus-kompakt .qr-name  { font-size: 9.5pt; }
+        #layout-karten.modus-kompakt .qr-gruppe{ font-size: 9pt; }
+
+        /* groß: 2 x 2 = 4 pro Seite (2 x 133mm = 266mm passen in 277mm) */
+        #layout-karten.modus-gross .qr-karte { height: 133mm; }
+        #layout-karten.modus-gross .qr-img   { width: 70mm; height: 70mm; }
+        #layout-karten.modus-gross .qr-nr    { font-size: 17pt; }
+        #layout-karten.modus-gross .qr-name  { font-size: 11pt; }
+        #layout-karten.modus-gross .qr-gruppe{ font-size: 10.5pt; }
+
         .gruppen-block { page-break-before: always; }
         .gruppen-block:first-child { page-break-before: auto; }
-        @media print {
-          .gruppen-block { page-break-before: always; }
-          .gruppen-block:first-child { page-break-before: auto; }
+
+        /* ---------- Stationsschild ---------- */
+        .schild { page-break-after: always; }
+        .schild:last-child { page-break-after: auto; }
+        .schild-grid { display: flex; flex-wrap: wrap; justify-content: center;
+                       gap: 6mm; margin-top: 8mm; }
+        .schild-karte { text-align: center;
+                        page-break-inside: avoid; break-inside: avoid; }
+        .schild-img { width: 48mm; height: 48mm; display: block; }
+        .schild-gruppe { font-family: 'Oswald', sans-serif; font-weight: 700;
+                         font-size: 13pt; color: #c8102e; margin-top: 2mm; }
+        .schild-fuss { margin-top: 10mm; text-align: center;
+                       font-size: 10pt; color: #6b7280; }
+
+        /* ---------- Umschaltleiste (nur am Bildschirm) ---------- */
+        .leiste { display: flex; flex-wrap: wrap; gap: 6pt; align-items: center;
+                  margin-bottom: 10pt; padding-bottom: 8pt;
+                  border-bottom: 1px solid #e5e7eb; }
+        .btn-um {
+          background: #fff; color: #1c2024; border: 1.5pt solid #d1d5db;
+          border-radius: 6pt; font-family: 'Oswald', sans-serif; font-weight: 500;
+          font-size: 10pt; padding: 5pt 12pt; cursor: pointer;
         }
+        .btn-um:hover { border-color: #9ca3af; background: #f9fafb; }
+        .btn-um.aktiv { background: #1c2024; color: #fff; border-color: #1c2024; }
+        .leiste-info { font-size: 9pt; color: #6b7280; margin-left: auto; }
       </style>
     </head><body>
-      <button class="btn-druck kein-druck" onclick="window.print()">🖨 Drucken</button>
-      ${karten}
+
+      <div class="leiste kein-druck">
+        <button class="btn-druck" onclick="window.print()">🖨 Drucken</button>
+        <button class="btn-um aktiv" id="btn-kompakt">Karten kompakt · 6 pro Seite</button>
+        <button class="btn-um" id="btn-gross">Karten groß · 4 pro Seite</button>
+        <button class="btn-um" id="btn-schild">Stationsschild · 1 pro Station</button>
+        <span class="leiste-info" id="leiste-info"></span>
+      </div>
+
+      <div class="layout aktiv modus-kompakt" id="layout-karten">${karten}</div>
+      <div class="layout" id="layout-schild">${schilder}</div>
+
+      <script>
+        (function () {
+          var anzStationen = ${stationen.length}, anzGruppen = ${gruppen.length};
+          var karten = anzStationen * anzGruppen;
+          // jede Gruppe beginnt auf einer neuen Seite -> je Gruppe aufrunden
+          function seiten(proSeite) { return Math.ceil(anzStationen / proSeite) * anzGruppen; }
+          var infos = {
+            kompakt: karten + " Karten · " + seiten(6) + " Seiten · zum Ausschneiden",
+            gross:   karten + " Karten · " + seiten(4) + " Seiten · zum Ausschneiden",
+            schild:  anzStationen + " Blätter · kein Ausschneiden nötig"
+          };
+          var kartenEl = document.getElementById("layout-karten");
+          var schildEl = document.getElementById("layout-schild");
+          function zeige(name) {
+            var istSchild = (name === "schild");
+            kartenEl.classList.toggle("aktiv", !istSchild);
+            kartenEl.classList.toggle("modus-kompakt", name === "kompakt");
+            kartenEl.classList.toggle("modus-gross",   name === "gross");
+            schildEl.classList.toggle("aktiv", istSchild);
+            ["kompakt", "gross", "schild"].forEach(function (n) {
+              document.getElementById("btn-" + n).classList.toggle("aktiv", n === name);
+            });
+            document.getElementById("leiste-info").textContent = infos[name];
+          }
+          ["kompakt", "gross", "schild"].forEach(function (n) {
+            document.getElementById("btn-" + n)
+              .addEventListener("click", function () { zeige(n); });
+          });
+          zeige("kompakt");
+        })();
+      <\/script>
     </body></html>`;
 
     oeffneFenster(html);
